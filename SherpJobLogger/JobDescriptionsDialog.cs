@@ -6,10 +6,6 @@ namespace SherpJobLogger {
 
   public partial class JobDescriptionsDialog : Form {
 
-    public JobDescriptionsDialog() {
-      InitializeComponent();
-    }
-
     public JobDescriptionsDialog(List<string> jobs) {
       InitializeComponent();
       this.JobDescriptions = jobs;
@@ -64,7 +60,8 @@ namespace SherpJobLogger {
           }
         }
       }
-      this.SelectedValue = dg.SelectedCells[0].FormattedValue.ToString();
+      string tempString = dg.SelectedCells[0].FormattedValue.ToString();
+      this.SelectedValue = string.IsNullOrEmpty(tempString) ? "random" : tempString;
       this.JobDescriptions = RowsToList(dg);
     }
 
@@ -91,7 +88,6 @@ namespace SherpJobLogger {
             dg.Rows.Remove(row);
           }
         }
-        //        if (string.IsNullOrEmpty(cell.Value.ToString()))cell.Value=ran
       }
     }
   }

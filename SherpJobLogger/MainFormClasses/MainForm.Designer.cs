@@ -40,7 +40,7 @@
       this.dateTimeDinnerTo = new System.Windows.Forms.DateTimePicker();
       this.dateTimeDinnerFrom = new System.Windows.Forms.DateTimePicker();
       this.checkBoxDinner = new System.Windows.Forms.CheckBox();
-      this.button1 = new System.Windows.Forms.Button();
+      this.buttonRegisterJobs = new System.Windows.Forms.Button();
       this.label6 = new System.Windows.Forms.Label();
       this.label5 = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
@@ -48,7 +48,7 @@
       this.dateTimeToDays = new System.Windows.Forms.DateTimePicker();
       this.dateTimeFromHours = new System.Windows.Forms.DateTimePicker();
       this.dateTimeFromDays = new System.Windows.Forms.DateTimePicker();
-      this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.dataGridViewJobs = new System.Windows.Forms.DataGridView();
       this.JobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.IDWork = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.JobDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,7 +58,7 @@
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.tabPageJobs.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewJobs)).BeginInit();
       this.SuspendLayout();
       // 
       // buttonExit
@@ -147,7 +147,7 @@
       this.tabPageJobs.Controls.Add(this.dateTimeDinnerTo);
       this.tabPageJobs.Controls.Add(this.dateTimeDinnerFrom);
       this.tabPageJobs.Controls.Add(this.checkBoxDinner);
-      this.tabPageJobs.Controls.Add(this.button1);
+      this.tabPageJobs.Controls.Add(this.buttonRegisterJobs);
       this.tabPageJobs.Controls.Add(this.label6);
       this.tabPageJobs.Controls.Add(this.label5);
       this.tabPageJobs.Controls.Add(this.label4);
@@ -155,7 +155,7 @@
       this.tabPageJobs.Controls.Add(this.dateTimeToDays);
       this.tabPageJobs.Controls.Add(this.dateTimeFromHours);
       this.tabPageJobs.Controls.Add(this.dateTimeFromDays);
-      this.tabPageJobs.Controls.Add(this.dataGridView1);
+      this.tabPageJobs.Controls.Add(this.dataGridViewJobs);
       this.tabPageJobs.Location = new System.Drawing.Point(4, 22);
       this.tabPageJobs.Name = "tabPageJobs";
       this.tabPageJobs.Padding = new System.Windows.Forms.Padding(3);
@@ -223,16 +223,16 @@
       this.checkBoxDinner.Text = "Учитывать обед";
       this.checkBoxDinner.UseVisualStyleBackColor = true;
       // 
-      // button1
+      // buttonRegisterJobs
       // 
-      this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.button1.Location = new System.Drawing.Point(576, 240);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 15;
-      this.button1.Text = "button1";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.button1_Click);
+      this.buttonRegisterJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.buttonRegisterJobs.Location = new System.Drawing.Point(576, 240);
+      this.buttonRegisterJobs.Name = "buttonRegisterJobs";
+      this.buttonRegisterJobs.Size = new System.Drawing.Size(75, 23);
+      this.buttonRegisterJobs.TabIndex = 15;
+      this.buttonRegisterJobs.Text = "Заполнить";
+      this.buttonRegisterJobs.UseVisualStyleBackColor = true;
+      this.buttonRegisterJobs.Click += new System.EventHandler(this.buttonRegisterJobs_Click);
       // 
       // label6
       // 
@@ -304,12 +304,12 @@
       this.dateTimeFromDays.Size = new System.Drawing.Size(78, 20);
       this.dateTimeFromDays.TabIndex = 8;
       // 
-      // dataGridView1
+      // dataGridViewJobs
       // 
-      this.dataGridView1.AllowUserToAddRows = false;
-      this.dataGridView1.AllowUserToDeleteRows = false;
-      this.dataGridView1.AllowUserToResizeRows = false;
-      this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+      this.dataGridViewJobs.AllowUserToAddRows = false;
+      this.dataGridViewJobs.AllowUserToDeleteRows = false;
+      this.dataGridViewJobs.AllowUserToResizeRows = false;
+      this.dataGridViewJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -319,21 +319,21 @@
       dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
       dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
       dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-      this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+      this.dataGridViewJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+      this.dataGridViewJobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewJobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.JobName,
             this.IDWork,
             this.JobDescription,
             this.JobRate});
-      this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-      this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-      this.dataGridView1.Name = "dataGridView1";
-      this.dataGridView1.RowHeadersVisible = false;
-      this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-      this.dataGridView1.Size = new System.Drawing.Size(651, 221);
-      this.dataGridView1.TabIndex = 2;
-      this.dataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
+      this.dataGridViewJobs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+      this.dataGridViewJobs.Location = new System.Drawing.Point(3, 3);
+      this.dataGridViewJobs.Name = "dataGridViewJobs";
+      this.dataGridViewJobs.RowHeadersVisible = false;
+      this.dataGridViewJobs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+      this.dataGridViewJobs.Size = new System.Drawing.Size(651, 221);
+      this.dataGridViewJobs.TabIndex = 2;
+      this.dataGridViewJobs.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
       // 
       // JobName
       // 
@@ -386,6 +386,7 @@
       // 
       // checkBoxWhatIf
       // 
+      this.checkBoxWhatIf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.checkBoxWhatIf.AutoSize = true;
       this.checkBoxWhatIf.Checked = true;
       this.checkBoxWhatIf.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -413,14 +414,14 @@
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Form1";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-      this.Load += new System.EventHandler(this.Form1_Load);
+      this.Load += new System.EventHandler(this.MainForm_Load);
       this.Shown += new System.EventHandler(this.MainForm_Shown);
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.tabPage1.PerformLayout();
       this.tabPageJobs.ResumeLayout(false);
       this.tabPageJobs.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewJobs)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -436,7 +437,7 @@
     private System.Windows.Forms.TreeView treeViewAllJobs;
     private System.Windows.Forms.Button buttonJobDescriptions;
     private System.Windows.Forms.TabPage tabPageJobs;
-    private System.Windows.Forms.DataGridView dataGridView1;
+    private System.Windows.Forms.DataGridView dataGridViewJobs;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.Label label4;
@@ -445,7 +446,7 @@
     private System.Windows.Forms.DateTimePicker dateTimeFromHours;
     private System.Windows.Forms.DateTimePicker dateTimeFromDays;
     private System.Windows.Forms.CheckBox checkBoxJobName;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button buttonRegisterJobs;
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.DateTimePicker dateTimeDinnerTo;

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes.cs" />
     <Compile Include="GetSqlConnectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,11 +53,17 @@
       <DependentUpon>GetSqlConnectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers.cs" />
+    <Compile Include="MainFormClasses\Magic.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RichMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RichMessageBox.Designer.cs">
       <DependentUpon>RichMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainFormClasses\Settings.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
@@ -70,10 +77,10 @@
     <Compile Include="JobDescriptionsDialog.Designer.cs">
       <DependentUpon>JobDescriptionsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="MainFormClasses\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="MainFormClasses\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -90,7 +97,7 @@
     <EmbeddedResource Include="JobDescriptionsDialog.resx">
       <DependentUpon>JobDescriptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="MainFormClasses\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
