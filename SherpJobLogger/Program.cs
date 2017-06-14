@@ -11,15 +11,17 @@ namespace SherpJobLogger {
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    private static void Main() {
+    private static void Main(string[] args) {
       rnd = new Random();
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      //Application.Run();
 
       MainForm = new MainForm();
-      MainForm.Splash = Splash.ShowSplash(MainForm);
-      MainForm.SetupVars();
+      ProjectControl pType;
+      if (args.Length > 0 && args[0] == "rfm") pType = ProjectControl.RFM;
+      else pType = ProjectControl.LG;
+
+      MainForm.SetupVars(pType);
       if (!MainForm.SqlConnected) return;
       Application.Run(MainForm);
     }

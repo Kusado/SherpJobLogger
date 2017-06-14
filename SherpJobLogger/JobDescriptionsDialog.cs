@@ -22,6 +22,7 @@ namespace SherpJobLogger {
     private void buttonOk_Click(object sender, EventArgs e) {
       SaveAndExit();
     }
+
     private void JobDescriptionsDialog_Load(object sender, EventArgs e) {
       ListToRows();
     }

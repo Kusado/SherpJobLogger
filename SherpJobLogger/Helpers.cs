@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 
 namespace SherpJobLogger {
+
   public static class Helpers {
+
     /// <summary>
     /// Случайный double с заданной точностью
     /// </summary>
@@ -19,6 +22,7 @@ namespace SherpJobLogger {
       double tempDouble = tempInt * accurancy / multiplier;
       return tempDouble;
     }
+
     /// <summary>
     /// Вычисляем ближайшее целое число, умножая double
     /// </summary>
@@ -39,14 +43,24 @@ namespace SherpJobLogger {
       multiplier = mult;
       return Convert.ToInt32(doubleD * mult);
     }
+
     /// <summary>
-    /// Округление числа с double точностью 
+    /// Округление числа с double точностью
     /// </summary>
     /// <param name="value">Значение, подвергаемое округлению</param>
     /// <param name="fraction">Точность с которой округляем</param>
     /// <returns>double</returns>
     public static double RoundToFraction(double value, double fraction) {
       return Math.Round(value / fraction) * fraction;
+    }
+
+    public static Stream ToStream(this string str) {
+      MemoryStream stream = new MemoryStream();
+      StreamWriter writer = new StreamWriter(stream);
+      writer.Write(str);
+      writer.Flush();
+      stream.Position = 0;
+      return stream;
     }
   }
 }

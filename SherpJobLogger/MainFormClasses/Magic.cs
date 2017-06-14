@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 namespace SherpJobLogger {
+
   public partial class MainForm : Form {
+
     private int GetCurentUserID() {
       string q = @"DECLARE @Uid int SET @Uid = dbo.GetCurrentUser() select @Uid";
       DataTable dt = GetSqlDataTable(q);
@@ -23,15 +24,29 @@ namespace SherpJobLogger {
 
       DataTable dt = GetSqlDataTable(q);
       this.ExecutorExists = Guid.TryParse(dt.Rows[0].ItemArray[0].ToString(), out Guid result);
+
       ExecutorGuid = this.ExecutorExists ? result : Guid.Empty;
       return ExecutorGuid;
     }
 
     private DateTime GetLastLoggedJobTime() {
       DateTime result;
-      const string query = @"SELECT TOP (1) [OperationDate]
+      string query = String.Empty;
+      switch (Settings.pType) {
+        case ProjectControl.RFM:
+          query = $@"SELECT TOP (1)[OperationDate]
+        FROM [ProjectControl].[dbo].[vOperation]
+        Where IdExecutor = '{ExecutorGuid}'
+        Order by OperationEnd desc";
+          break;
+
+        case ProjectControl.LG:
+          query = @"SELECT TOP (1) [OperationDate]
                              FROM [ProjectControl].[dbo].[vOperationShedule_CU]
                              order by OperationDate desc";
+          break;
+      }
+
       DataTable dt = GetSqlDataTable(query);
       try {
         result = DateTime.Parse(dt.Rows[0].ItemArray[0].ToString());
@@ -40,6 +55,10 @@ namespace SherpJobLogger {
         result = DateTime.Now;
       }
       return result;
+    }
+
+    private bool IsRFM() {
+      if (Settings.pType == ProjectControl.RFM) return true; else return false;
     }
 
     private DataTable GetSqlDataTable(string q) {
@@ -71,7 +90,21 @@ namespace SherpJobLogger {
 
     private List<LGTask> GetProjectWorkCU() {
       List<LGTask> result = new List<LGTask>();
-      string q = @"USE ProjectControl SELECT * FROM dbo.vWork_CU_All";
+      string q = string.Empty;
+      switch (Settings.pType) {
+        case ProjectControl.LG:
+          q = @"USE ProjectControl SELECT * FROM dbo.vWork_CU_All";
+          break;
+
+        case ProjectControl.RFM:
+          q = $@"SELECT * FROM [ProjectControl].[dbo].[vWork]
+              WHERE IdExecutor = '{ExecutorGuid}'";
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
+
       DataTable dt = GetSqlDataTable(q);
       foreach (DataRow r in dt.Rows) {
         result.Add(LGTask.FromDataTable(r));
@@ -139,22 +172,22 @@ namespace SherpJobLogger {
     }
 
     public static string GetRandomJobDescription() {
-      return JobDescriptions[Program.rnd.Next(JobDescriptions.Count)];
+      return Settings.JobDescriptions[Program.rnd.Next(Settings.JobDescriptions.Count)];
     }
 
     private JobDescriptionsDialog OpenJobDescriptionsDialog() {
-      var jdd = new JobDescriptionsDialog(JobDescriptions);
+      var jdd = new JobDescriptionsDialog(Settings.JobDescriptions);
       jdd.ShowInTaskbar = false;
       jdd.Activate();
       jdd.ShowDialog();
       if (jdd.DialogResult == DialogResult.OK) {
-        JobDescriptions = jdd.JobDescriptions;
+        Settings.JobDescriptions = jdd.JobDescriptions;
       }
       return jdd;
     }
 
     private void FillGridWithJobs() {
-      List<string> jbz = JobDescriptions.Select(x => x).ToList();
+      List<string> jbz = Settings.JobDescriptions.Select(x => x).ToList();
       jbz.Add("random");
       DataGridView dgv = this.dataGridViewJobs;
       DataGridViewCellStyle temp = dgv.Columns[2].DefaultCellStyle;
@@ -201,7 +234,9 @@ namespace SherpJobLogger {
       }
     }
 
-    public static JobLog GetRandomJobLog(List<JobLog> JobLogs) { return GetRandomJobLog(JobLogs, Program.rnd); }
+    public static JobLog GetRandomJobLog(List<JobLog> JobLogs) {
+      return GetRandomJobLog(JobLogs, Program.rnd);
+    }
 
     public static JobLog GetRandomJobLog(List<JobLog> JobLogs, Random rnd) {
       return JobLogs[rnd.Next(JobLogs.Count)];
@@ -236,6 +271,7 @@ namespace SherpJobLogger {
         switch (answer) {
           case DialogResult.Ignore:
             break;
+
           case DialogResult.Abort:
             throw;
           case DialogResult.Retry:
@@ -248,17 +284,17 @@ namespace SherpJobLogger {
           RichMessageBox.ShowNew(cmd.CommandText);
         }
         else { cmd.ExecuteNonQuery(); }
-
-
       }
       catch (SqlException exception) {
         DialogResult answer = MessageBox.Show(exception.Message, exception.Source, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
         switch (answer) {
           case DialogResult.Ignore:
             return false;
+
           case DialogResult.Abort:
             Program.MainForm.Close();
             return false;
+
           case DialogResult.Retry:
             RegisterJob(jobLog, Debug);
             break;
@@ -280,7 +316,7 @@ namespace SherpJobLogger {
         string descr = row.Cells[2].FormattedValue.ToString();
         Guid IDwork = Guid.Parse(row.Cells[1].Value.ToString());
         LGTask w = this.SelectedJobs.FirstOrDefault(x => x.IDWork == IDwork);
-        JobLog jobLog = new JobLog(w, Helpers.RoundToFraction(jobRate / JobRateTotal * totalHours, JobLogAccurancy), descr);
+        JobLog jobLog = new JobLog(w, Helpers.RoundToFraction(jobRate / JobRateTotal * totalHours, Settings.JobLogAccurancy), descr);
 
         result.Add(jobLog);
       }
@@ -376,7 +412,6 @@ namespace SherpJobLogger {
       var result = new List<WorkSpan>();
 
       foreach (DateTime Day in GetWorkDates()) {
-
         DateTime Morningfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeFromHours.Value.Hour, 0, 0);
         DateTime Morningto = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerFrom.Value.Hour, 0, 0);
         DateTime Dayfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerTo.Value.Hour, 0, 0);

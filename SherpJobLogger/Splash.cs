@@ -17,8 +17,8 @@ namespace SherpJobLogger {
     private MainForm main;
 
     public delegate void CloseDel();
-    public static Splash ShowSplash(MainForm main) {
 
+    public static Splash ShowSplash(MainForm main) {
       Splash s = new Splash();
       s.main = main;
       s.MyThread = new Thread(s._showSplash);

@@ -163,7 +163,7 @@
       this.tabPageJobs.TabIndex = 3;
       this.tabPageJobs.Text = "Заполнение работ";
       this.tabPageJobs.UseVisualStyleBackColor = true;
-      this.tabPageJobs.Enter += new System.EventHandler(this.tabPageJobs_Enter);
+      this.tabPageJobs.Enter += new System.EventHandler(this.TabPageJobs_Enter);
       // 
       // label7
       // 
@@ -188,7 +188,6 @@
       // dateTimeDinnerTo
       // 
       this.dateTimeDinnerTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.dateTimeDinnerTo.Enabled = false;
       this.dateTimeDinnerTo.Format = System.Windows.Forms.DateTimePickerFormat.Time;
       this.dateTimeDinnerTo.Location = new System.Drawing.Point(503, 243);
       this.dateTimeDinnerTo.Name = "dateTimeDinnerTo";
@@ -200,7 +199,6 @@
       // dateTimeDinnerFrom
       // 
       this.dateTimeDinnerFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.dateTimeDinnerFrom.Enabled = false;
       this.dateTimeDinnerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Time;
       this.dateTimeDinnerFrom.Location = new System.Drawing.Point(408, 243);
       this.dateTimeDinnerFrom.Name = "dateTimeDinnerFrom";
@@ -215,13 +213,13 @@
       this.checkBoxDinner.AutoSize = true;
       this.checkBoxDinner.Checked = true;
       this.checkBoxDinner.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBoxDinner.Enabled = false;
       this.checkBoxDinner.Location = new System.Drawing.Point(389, 226);
       this.checkBoxDinner.Name = "checkBoxDinner";
       this.checkBoxDinner.Size = new System.Drawing.Size(108, 17);
       this.checkBoxDinner.TabIndex = 16;
       this.checkBoxDinner.Text = "Учитывать обед";
       this.checkBoxDinner.UseVisualStyleBackColor = true;
+      this.checkBoxDinner.CheckedChanged += new System.EventHandler(this.CheckBoxDinner_CheckedChanged);
       // 
       // buttonRegisterJobs
       // 
@@ -232,7 +230,7 @@
       this.buttonRegisterJobs.TabIndex = 15;
       this.buttonRegisterJobs.Text = "Заполнить";
       this.buttonRegisterJobs.UseVisualStyleBackColor = true;
-      this.buttonRegisterJobs.Click += new System.EventHandler(this.buttonRegisterJobs_Click);
+      this.buttonRegisterJobs.Click += new System.EventHandler(this.ButtonRegisterJobs_Click);
       // 
       // label6
       // 
@@ -333,7 +331,7 @@
       this.dataGridViewJobs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
       this.dataGridViewJobs.Size = new System.Drawing.Size(651, 221);
       this.dataGridViewJobs.TabIndex = 2;
-      this.dataGridViewJobs.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
+      this.dataGridViewJobs.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView1_CellMouseDoubleClick);
       // 
       // JobName
       // 
@@ -382,7 +380,7 @@
       this.buttonJobDescriptions.TabIndex = 5;
       this.buttonJobDescriptions.Text = "Описания работ";
       this.buttonJobDescriptions.UseVisualStyleBackColor = true;
-      this.buttonJobDescriptions.Click += new System.EventHandler(this.buttonJobDescriptions_Click);
+      this.buttonJobDescriptions.Click += new System.EventHandler(this.ButtonJobDescriptions_Click);
       // 
       // checkBoxWhatIf
       // 
@@ -396,6 +394,7 @@
       this.checkBoxWhatIf.TabIndex = 6;
       this.checkBoxWhatIf.Text = "WhatIf";
       this.checkBoxWhatIf.UseVisualStyleBackColor = true;
+      this.checkBoxWhatIf.CheckedChanged += new System.EventHandler(this.CheckBoxWhatIf_CheckedChanged);
       // 
       // MainForm
       // 

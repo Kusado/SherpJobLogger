@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 
 namespace SherpJobLogger {
+
   /// <summary>
   /// Описание схемы БД с работами
   /// </summary>
@@ -22,6 +23,7 @@ namespace SherpJobLogger {
     public Guid IDExecutor { get; set; }
     public string ContractorName { get; set; }
     public Guid IdContractorExt { get; set; }
+    public int CompletePercentDeveloper { get; set; }
 
     #endregion Properties
 
@@ -31,17 +33,25 @@ namespace SherpJobLogger {
         WorkNumber = dr["WorkNumber"].ToString(),
         IDProject = Guid.Parse(dr["IDProject"].ToString()),
         ProjectName = dr["ProjectName"].ToString(),
-        ProjectShortName = dr["ProjectShortName"].ToString(),
         ProjectNumber = dr["ProjectNumber"].ToString(),
         WorkText = dr["WorkText"].ToString(),
         WorkName = dr["WorkName"].ToString(),
         IDExecutor = Guid.Parse(dr["IDExecutor"].ToString()),
-        ContractorName = dr["ContractorName"].ToString()
       };
-      if (!String.IsNullOrEmpty(dr["IdContractorExt"].ToString())) { result.IdContractorExt = Guid.Parse(dr["IdContractorExt"].ToString()); }
+      if (MainForm.Settings.pType == ProjectControl.RFM) {
+        result.ProjectShortName = result.ProjectNumber;
+        result.ContractorName = dr["WorkProducerFullName"].ToString();
+        if (int.TryParse(dr["CompletePercentDeveloper"].ToString(), out int tepmInt)) result.CompletePercentDeveloper = tepmInt;
+      }
+      else if (MainForm.Settings.pType == ProjectControl.LG) {
+        result.ContractorName = dr["ContractorName"].ToString();
+        result.ProjectShortName = dr["ProjectShortName"].ToString();
+      }
+      if (MainForm.Settings.pType == ProjectControl.LG && !String.IsNullOrEmpty(dr["IdContractorExt"].ToString())) { result.IdContractorExt = Guid.Parse(dr["IdContractorExt"].ToString()); }
       return result;
     }
   }
+
   /// <summary>
   /// Выполненная работа с описанием проделанного, временными отметками
   /// </summary>
@@ -50,24 +60,29 @@ namespace SherpJobLogger {
     #region Properties
 
     public LGTask Task { get; }
+
     /// <summary>
     /// Общее число часов, затраченное на конкретную задачу
     /// </summary>
     public double Hours { get; set; }
+
     /// <summary>
     /// Проделанная исполнителем работа
     /// </summary>
     public string Description { get; private set; }
+
     /// <summary>
     /// Дата и время начала конкретного отрезка работы
     /// </summary>
     public DateTime BeginDateTime { get; set; }
+
     /// <summary>
     ///Дата и время окончания конкретного отрезка работы
     /// </summary>
     public DateTime EndDateTime { get; set; }
 
     #endregion Properties
+
     public JobLog(JobLog j) {
       this.Task = j.Task;
       this.Hours = j.Hours;
@@ -75,6 +90,7 @@ namespace SherpJobLogger {
       this.BeginDateTime = j.BeginDateTime;
       this.EndDateTime = j.EndDateTime;
     }
+
     public JobLog(JobLog j, string description) {
       this.Task = j.Task;
       this.Hours = j.Hours;
@@ -88,6 +104,7 @@ namespace SherpJobLogger {
       this.Hours = hours;
       this.Description = JobDescription;
     }
+
     public double LengthCurrentJob() {
       return (this.EndDateTime - this.BeginDateTime).TotalHours;
     }
@@ -104,10 +121,12 @@ namespace SherpJobLogger {
     /// Начало рабочего отрезка
     /// </summary>
     public DateTime from { get; }
+
     /// <summary>
     /// Окончание рабочего отрезка
     /// </summary>
     public DateTime to { get; }
+
     /// <summary>
     /// Продолжительность рабочего отрезка
     /// </summary>
@@ -132,7 +151,6 @@ namespace SherpJobLogger {
     /// <param name="Debug"></param>
     /// <returns></returns>
     public bool registerJob(List<JobLog> Jobs, bool Debug) {
-
       var filteredJobs = Jobs.Where(x => x.Hours > this.Length).ToList();
       if (filteredJobs.Count <= 0) return false;
 
@@ -156,14 +174,15 @@ namespace SherpJobLogger {
       }
       return MainForm.RegisterJob(loggedJob, Debug);
     }
+
     public static List<WorkSpan> GetWorkSpanList(DateTime from, DateTime to, Random rnd) {
       //int minimumWorkSpanHours = 3;
       var result = new List<WorkSpan>();
       TimeSpan span = to - from;
       double hours = span.TotalHours;
-      if (span.TotalHours > MainForm.minimumWorkSpanHours) {
+      if (span.TotalHours > MainForm.Settings.minimumWorkSpanHours) {
         int mult;
-        double tempDouble = Helpers.GetRandomDouble(hours, rnd, out mult, MainForm.minimumWorkSpanHours, MainForm.JobLogAccurancy);
+        double tempDouble = Helpers.GetRandomDouble(hours, rnd, out mult, MainForm.Settings.minimumWorkSpanHours, MainForm.Settings.JobLogAccurancy);
         int i = rnd.Next(0, 2);
         WorkSpan res;
         if (i == 1) {
@@ -178,12 +197,16 @@ namespace SherpJobLogger {
         }
         result.Add(res);
         if (from != to) result.AddRange(GetWorkSpanList(from, to, rnd));
-
       }
       else {
         result.Add(new WorkSpan(from, to));
       }
       return result;
     }
+  }
+
+  public enum ProjectControl {
+    LG,
+    RFM
   }
 }

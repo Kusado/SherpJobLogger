@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace SherpJobLogger {
 
   public partial class MainForm : Form {
+
     public MainForm() {
       InitializeComponent();
     }
 
     private void MainForm_Load(object sender, EventArgs e) {
       this.label1.Text = $@"Your ID is: {GetCurentUserID()}";
-      this.label2.Text = $@"Your ExecutorID is: {GetExecutorID()}";
+      if (Settings.pType == ProjectControl.RFM) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID(this.UserId)}";
+      if (Settings.pType == ProjectControl.LG) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID()}";
+
       if (this.ExecutorExists) {
         this.Work = GetProjectWorkCU();
         PopulateJobsTree();
@@ -43,7 +45,6 @@ namespace SherpJobLogger {
       Application.Exit();
     }
 
-
     private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e) {
       if (e.Action != TreeViewAction.ByKeyboard && e.Action != TreeViewAction.ByMouse) return;
       bool state = e.Node.Checked;
@@ -54,11 +55,11 @@ namespace SherpJobLogger {
       else { ((Control)this.tabPageJobs).Show(); }
     }
 
-    private void buttonJobDescriptions_Click(object sender, EventArgs e) {
+    private void ButtonJobDescriptions_Click(object sender, EventArgs e) {
       OpenJobDescriptionsDialog();
     }
 
-    private void tabPageJobs_Enter(object sender, EventArgs e) {
+    private void TabPageJobs_Enter(object sender, EventArgs e) {
       if (this.SelectedJobs == null || this.SelectedJobs.Count == 0) {
         this.tabControl1.SelectedTab = this.tabPage1;
         return;
@@ -68,14 +69,14 @@ namespace SherpJobLogger {
       FillGridWithJobs();
     }
 
-    private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
+    private void DataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
       if (e.ColumnIndex != 2) return;
       DataGridView dgv = sender as DataGridView;
       JobDescriptionsDialog jdd = OpenJobDescriptionsDialog();
       DataGridViewCell cell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
       if (jdd.DialogResult == DialogResult.OK) {
-        JobDescriptions = jdd.JobDescriptions;
-        List<string> jbz = JobDescriptions.Select(x => x).ToList();
+        Settings.JobDescriptions = jdd.JobDescriptions;
+        List<string> jbz = Settings.JobDescriptions.Select(x => x).ToList();
         jbz.Add("random");
         cell.Value = jdd.SelectedValue;
         dgv.RefreshEdit();
@@ -83,9 +84,20 @@ namespace SherpJobLogger {
       dgv.ClearSelection();
     }
 
-    private void buttonRegisterJobs_Click(object sender, EventArgs e) {
+    private void ButtonRegisterJobs_Click(object sender, EventArgs e) {
       RegisterJobs();
     }
-  }
 
+    private void CheckBoxWhatIf_CheckedChanged(object sender, EventArgs e) {
+      if (sender is CheckBox chb) {
+        Settings.WhatIfChecked = chb.Checked;
+      }
+    }
+
+    private void CheckBoxDinner_CheckedChanged(object sender, EventArgs e) {
+      if (sender is CheckBox chb) {
+        Settings.DinnerChecked = chb.Checked;
+      }
+    }
+  }
 }
