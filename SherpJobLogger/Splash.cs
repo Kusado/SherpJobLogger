@@ -7,20 +7,32 @@ namespace SherpJobLogger {
 
   public partial class Splash : Form {
     public Thread MyThread;
+    private string _status;
+
+    public string Status {
+      get { return this._status; }
+      set {
+        this._status = value;
+        if (this.Created) this.Invoke((MethodInvoker)delegate { this.label2.Text = this._status; });
+      }
+    }
 
     public Splash() {
       InitializeComponent();
       this.label1.Parent = this.pictureBox1;
       this.label1.BackColor = Color.Transparent;
+      this.label2.Parent = this.pictureBox1;
+      this.label2.BackColor = Color.Transparent;
+      Status = String.Empty;
     }
 
-    private MainForm main;
+    private MainForm mainForm;
 
     public delegate void CloseDel();
 
-    public static Splash ShowSplash(MainForm main) {
+    public static Splash ShowSplash(MainForm mainForm) {
       Splash s = new Splash();
-      s.main = main;
+      s.mainForm = mainForm;
       s.MyThread = new Thread(s._showSplash);
       s.MyThread.Start();
 

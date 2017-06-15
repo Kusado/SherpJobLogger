@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using OpenDataParser;
 
 namespace SherpJobLogger {
 
   public partial class MainForm : Form {
+
+
 
     private int GetCurentUserID() {
       string q = @"DECLARE @Uid int SET @Uid = dbo.GetCurrentUser() select @Uid";
@@ -19,11 +23,17 @@ namespace SherpJobLogger {
 
     private Guid GetExecutorID(int id = -1) {
       string q = string.Empty;
-      if (id == -1) q = $"SELECT TOP (1000) [IdExecutor] FROM [ProjectControl].[dbo].[vExecutorCurrent]";
+      if (id == -1) q = $"SELECT [IdExecutor],[Login] FROM [ProjectControl].[dbo].[vExecutorCurrent]";
       else q = $"SELECT TOP(1000) *FROM[ProjectControl].[dbo].[vExecutor] where IdUser = {id}";
 
       DataTable dt = GetSqlDataTable(q);
       this.ExecutorExists = Guid.TryParse(dt.Rows[0].ItemArray[0].ToString(), out Guid result);
+      try {
+        this.Text = dt.Rows[0].ItemArray[1].ToString();
+      }
+      catch {
+        // ignored
+      }
 
       ExecutorGuid = this.ExecutorExists ? result : Guid.Empty;
       return ExecutorGuid;
@@ -44,11 +54,15 @@ namespace SherpJobLogger {
           query = @"SELECT TOP (1) [OperationDate]
                              FROM [ProjectControl].[dbo].[vOperationShedule_CU]
                              order by OperationDate desc";
+
+          //вьюха пиздец тормозная, выполняется секунд 5.
+
+          //query = @"SELECT 1";
           break;
       }
 
-      DataTable dt = GetSqlDataTable(query);
       try {
+        DataTable dt = GetSqlDataTable(query);
         result = DateTime.Parse(dt.Rows[0].ItemArray[0].ToString());
       }
       catch (Exception) {
@@ -117,18 +131,28 @@ namespace SherpJobLogger {
     }
 
     private void PopulateJobsTree(List<LGTask> lgw) {
+#if DEBUG
+      var time = DateTime.Now;
+#endif
       this.treeViewAllJobs.Nodes.Clear();
+      //foreach (var ContName in lgw.GroupBy(Cont => Cont.ContractorName).OrderBy(x => x)) {
       foreach (var ContName in lgw.OrderBy(x => x.ContractorName).GroupBy(Cont => Cont.ContractorName)) {
-        var rootNode = this.treeViewAllJobs.Nodes.Add(ContName.Select(x => x.IdContractorExt).FirstOrDefault().ToString(), ContName.Key);
+        TreeNode rootNode = this.treeViewAllJobs.Nodes.Add(ContName.First().IdContractorExt.ToString(), ContName.Key);
+        //var rootNode = this.treeViewAllJobs.Nodes.Add(ContName.Select(x => x.IdContractorExt).FirstOrDefault().ToString(), ContName.Key);
         if (string.IsNullOrEmpty(rootNode.Text)) rootNode.Text = rootNode.Name;
-        foreach (var proj in ContName.OrderBy(x => x.ProjectName).GroupBy(y => y.ProjectName)) {
-          var nodec1 = rootNode.Nodes.Add(proj.Key);
-          foreach (var work in proj.OrderBy(x => x.WorkName).Select(x => x.IDWork).Distinct()) {
+        foreach (var proj in ContName.GroupBy(y => y.ProjectName)) {
+          //foreach (var proj in ContName.OrderBy(x => x.ProjectName).GroupBy(y => y.ProjectName)) {
+          TreeNode nodec1 = rootNode.Nodes.Add(proj.Key);
+          foreach (var work in proj.Select(x => x.IDWork).Distinct()) {
+            //foreach (var work in proj.OrderBy(x => x.WorkName).Select(x => x.IDWork).Distinct()) {
             nodec1.Nodes.Add(work.ToString(), proj.Where(x => x.IDWork.ToString() == work.ToString()).Select(x => x.WorkName).FirstOrDefault());
           }
         }
         rootNode.Expand();
       }
+#if DEBUG
+      Debug.WriteLine($"End adding tree nodes {(DateTime.Now - time).TotalSeconds}");
+#endif
     }
 
     private static void CheckNodeTree(TreeNode node, bool state) {
@@ -216,9 +240,11 @@ namespace SherpJobLogger {
 
     private void RegisterJobs() {
       List<JobLog> jobs = GetJobRates();
-      var workSpans = GetWorkSpans().OrderByDescending(x => x.Length);
+      List<SherpJobLogger.WorkSpan> AllSpans = GetWorkSpans();
+      List<WorkSpan> workSpans = AllSpans.OrderByDescending(x => x.Length).ToList();
       foreach (WorkSpan span in workSpans) {
-        span.registerJob(jobs, this.checkBoxWhatIf.Checked);
+        span.RegisterJob(jobs, this.checkBoxWhatIf.Checked);
+        AllSpans.Remove(span);
       }
 
       /*Возможна ситуация, когда не удастся все работы кратно распихать по рабочим отрезкам.
@@ -390,7 +416,7 @@ namespace SherpJobLogger {
     private static bool IsWorkDay(DateTime d) {
       if (d.DayOfWeek == DayOfWeek.Saturday) return false;
       if (d.DayOfWeek == DayOfWeek.Sunday) return false;
-      if (isHoliday(d)) return false;
+      if (IsHoliday(d)) return false;
       return true;
     }
 
@@ -399,9 +425,9 @@ namespace SherpJobLogger {
     /// </summary>
     /// <param name="d"></param>
     /// <returns></returns>
-    private static bool isHoliday(DateTime d) {
+    private static bool IsHoliday(DateTime d) {
       //ToDo: Реализовать посик праздничных дней.
-      return false;
+      return calendar.IsHoliday(d);
     }
 
     /// <summary>
@@ -430,7 +456,7 @@ namespace SherpJobLogger {
 
     private void SetDateTimeNBD(DateTimePicker p) {
       p.Value = p.Value.AddDays(1);
-      while (isHoliday(p.Value)) {
+      while (!IsWorkDay(p.Value)) {
         p.Value = p.Value.AddDays(1);
       }
     }

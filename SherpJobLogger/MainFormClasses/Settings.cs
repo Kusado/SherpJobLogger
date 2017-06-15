@@ -7,10 +7,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using OpenDataParser;
 
 namespace SherpJobLogger {
 
-  public partial class MainForm : Form {
+  public partial class MainForm {
 
     #region Properties
 
@@ -23,16 +24,27 @@ namespace SherpJobLogger {
     private List<LGTask> SelectedJobs { get; set; }
     public Splash Splash { get; set; }
     public static Settings Settings;
+    private OPD Opd;
+    public static ProductionCalendar calendar;
 
     #endregion Properties
 
     public void SetupVars(ProjectControl pType) {
       Splash = Splash.ShowSplash(this);
+      Splash.Status = "Loading settings...";
       Settings = new Settings();
       LoadSettings();
       if (!ApplySettings(out Exception e)) { RichMessageBox.ShowNew(e.Message); return; }
       Settings.pType = pType;
+      Splash.Status = "Connecting to SQL...";
       this.SqlConnected = GetSqlConnection(Settings.ConnectionString, out SqlConnection);
+      if (!SqlConnected) return;
+      Splash.Status = "Get production calendar...";
+      this.Opd = new OPD {
+        Type = DataType.ProductionCalendar,
+        ApiKey = "b4cf9c9bcf820263c676baedee59acd2"
+      };
+      calendar = this.Opd.GetProductionCalendar();
     }
 
     public bool ApplySettings(out Exception exception) {
@@ -53,6 +65,7 @@ namespace SherpJobLogger {
     }
 
     private void LoadSettings() {
+      Splash.Status = "Loading settings from registry...";
       Settings = Settings.LoadSettings(out bool loaded);
       if (!loaded) {
         LoadDefaultSettings();
@@ -60,6 +73,7 @@ namespace SherpJobLogger {
     }
 
     private void LoadDefaultSettings() {
+      Splash.Status = "Loading default settings...";
       if (Settings.pType == ProjectControl.LG) Settings.ConnectionString = @"Server=uran\lg;Database=KB;Trusted_Connection=True;Connection Timeout=3;";
       if (Settings.pType == ProjectControl.RFM) Settings.ConnectionString = @"Server=MARS\RFM;Database=KB;Trusted_Connection=True;Connection Timeout=3;";
       Settings.JobDescriptions = new List<string>() {

@@ -13,19 +13,24 @@ namespace SherpJobLogger {
     }
 
     private void MainForm_Load(object sender, EventArgs e) {
+      Splash.Status = "GetCurentUserID";
       this.label1.Text = $@"Your ID is: {GetCurentUserID()}";
+      Splash.Status = "Get Executor ID";
       if (Settings.pType == ProjectControl.RFM) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID(this.UserId)}";
       if (Settings.pType == ProjectControl.LG) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID()}";
 
       if (this.ExecutorExists) {
+        Splash.Status = "Get Tasks";
         this.Work = GetProjectWorkCU();
+        Splash.Status = "Populate tree with tasks";
         PopulateJobsTree();
       }
       else this.treeViewAllJobs.Nodes.Add("No jobs for you...");
       var now = DateTime.Now;
-      if ((this.dateTimeFromDays.Value = GetLastLoggedJobTime()) != now) SetDateTimeNBD(this.dateTimeFromDays);
+      Splash.Status = "Get last logged job time...";
+      if ((this.dateTimeFromDays.Value = GetLastLoggedJobTime()).Date != now.Date) SetDateTimeNBD(this.dateTimeFromDays);
       this.dateTimeToDays.Value = now;
-
+      Splash.Status = "Showing main form...";
       Show();
       Focus();
       BringToFront();
@@ -33,6 +38,7 @@ namespace SherpJobLogger {
     }
 
     private void MainForm_Shown(object sender, EventArgs e) {
+      Splash.Status = "Closing splash screen";
       this.Splash.CloseSplash();
     }
 

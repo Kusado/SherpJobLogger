@@ -23,10 +23,11 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.buttonExit = new System.Windows.Forms.Button();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
@@ -65,7 +66,7 @@
       // 
       this.buttonExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.buttonExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.buttonExit.Location = new System.Drawing.Point(602, 352);
+      this.buttonExit.Location = new System.Drawing.Point(607, 378);
       this.buttonExit.Name = "buttonExit";
       this.buttonExit.Size = new System.Drawing.Size(75, 23);
       this.buttonExit.TabIndex = 0;
@@ -101,27 +102,27 @@
       this.tabControl1.Location = new System.Drawing.Point(12, 46);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(665, 300);
+      this.tabControl1.Size = new System.Drawing.Size(670, 326);
       this.tabControl1.TabIndex = 4;
       // 
       // tabPage1
       // 
-      this.tabPage1.Controls.Add(this.checkBoxJobName);
       this.tabPage1.Controls.Add(this.treeViewAllJobs);
       this.tabPage1.Location = new System.Drawing.Point(4, 22);
       this.tabPage1.Name = "tabPage1";
       this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage1.Size = new System.Drawing.Size(657, 274);
+      this.tabPage1.Size = new System.Drawing.Size(662, 300);
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "Выбор проектных работ.";
       this.tabPage1.UseVisualStyleBackColor = true;
       // 
       // checkBoxJobName
       // 
+      this.checkBoxJobName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.checkBoxJobName.AutoSize = true;
       this.checkBoxJobName.Checked = true;
       this.checkBoxJobName.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBoxJobName.Location = new System.Drawing.Point(6, 324);
+      this.checkBoxJobName.Location = new System.Drawing.Point(12, 384);
       this.checkBoxJobName.Name = "checkBoxJobName";
       this.checkBoxJobName.Size = new System.Drawing.Size(207, 17);
       this.checkBoxJobName.TabIndex = 8;
@@ -131,12 +132,12 @@
       // treeViewAllJobs
       // 
       this.treeViewAllJobs.CheckBoxes = true;
-      this.treeViewAllJobs.Dock = System.Windows.Forms.DockStyle.Top;
+      this.treeViewAllJobs.Dock = System.Windows.Forms.DockStyle.Fill;
       this.treeViewAllJobs.FullRowSelect = true;
       this.treeViewAllJobs.Location = new System.Drawing.Point(3, 3);
       this.treeViewAllJobs.Name = "treeViewAllJobs";
       this.treeViewAllJobs.ShowNodeToolTips = true;
-      this.treeViewAllJobs.Size = new System.Drawing.Size(651, 315);
+      this.treeViewAllJobs.Size = new System.Drawing.Size(656, 294);
       this.treeViewAllJobs.TabIndex = 7;
       this.treeViewAllJobs.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterCheck);
       // 
@@ -159,7 +160,7 @@
       this.tabPageJobs.Location = new System.Drawing.Point(4, 22);
       this.tabPageJobs.Name = "tabPageJobs";
       this.tabPageJobs.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageJobs.Size = new System.Drawing.Size(657, 274);
+      this.tabPageJobs.Size = new System.Drawing.Size(662, 300);
       this.tabPageJobs.TabIndex = 3;
       this.tabPageJobs.Text = "Заполнение работ";
       this.tabPageJobs.UseVisualStyleBackColor = true;
@@ -169,7 +170,7 @@
       // 
       this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label7.AutoSize = true;
-      this.label7.Location = new System.Drawing.Point(480, 240);
+      this.label7.Location = new System.Drawing.Point(480, 266);
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(22, 13);
       this.label7.TabIndex = 20;
@@ -179,7 +180,7 @@
       // 
       this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(386, 240);
+      this.label3.Location = new System.Drawing.Point(386, 266);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(16, 13);
       this.label3.TabIndex = 19;
@@ -189,7 +190,7 @@
       // 
       this.dateTimeDinnerTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.dateTimeDinnerTo.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-      this.dateTimeDinnerTo.Location = new System.Drawing.Point(503, 243);
+      this.dateTimeDinnerTo.Location = new System.Drawing.Point(503, 269);
       this.dateTimeDinnerTo.Name = "dateTimeDinnerTo";
       this.dateTimeDinnerTo.ShowUpDown = true;
       this.dateTimeDinnerTo.Size = new System.Drawing.Size(68, 20);
@@ -200,7 +201,7 @@
       // 
       this.dateTimeDinnerFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.dateTimeDinnerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-      this.dateTimeDinnerFrom.Location = new System.Drawing.Point(408, 243);
+      this.dateTimeDinnerFrom.Location = new System.Drawing.Point(408, 269);
       this.dateTimeDinnerFrom.Name = "dateTimeDinnerFrom";
       this.dateTimeDinnerFrom.ShowUpDown = true;
       this.dateTimeDinnerFrom.Size = new System.Drawing.Size(68, 20);
@@ -213,7 +214,7 @@
       this.checkBoxDinner.AutoSize = true;
       this.checkBoxDinner.Checked = true;
       this.checkBoxDinner.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBoxDinner.Location = new System.Drawing.Point(389, 226);
+      this.checkBoxDinner.Location = new System.Drawing.Point(389, 252);
       this.checkBoxDinner.Name = "checkBoxDinner";
       this.checkBoxDinner.Size = new System.Drawing.Size(108, 17);
       this.checkBoxDinner.TabIndex = 16;
@@ -224,7 +225,7 @@
       // buttonRegisterJobs
       // 
       this.buttonRegisterJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.buttonRegisterJobs.Location = new System.Drawing.Point(576, 240);
+      this.buttonRegisterJobs.Location = new System.Drawing.Point(581, 266);
       this.buttonRegisterJobs.Name = "buttonRegisterJobs";
       this.buttonRegisterJobs.Size = new System.Drawing.Size(75, 23);
       this.buttonRegisterJobs.TabIndex = 15;
@@ -236,7 +237,7 @@
       // 
       this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(6, 227);
+      this.label6.Location = new System.Drawing.Point(6, 253);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(101, 13);
       this.label6.TabIndex = 13;
@@ -246,7 +247,7 @@
       // 
       this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(187, 240);
+      this.label5.Location = new System.Drawing.Point(187, 266);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(22, 13);
       this.label5.TabIndex = 12;
@@ -256,7 +257,7 @@
       // 
       this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(6, 240);
+      this.label4.Location = new System.Drawing.Point(6, 266);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(16, 13);
       this.label4.TabIndex = 6;
@@ -266,7 +267,7 @@
       // 
       this.dateTimeToHours.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.dateTimeToHours.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-      this.dateTimeToHours.Location = new System.Drawing.Point(299, 244);
+      this.dateTimeToHours.Location = new System.Drawing.Point(299, 270);
       this.dateTimeToHours.Name = "dateTimeToHours";
       this.dateTimeToHours.ShowUpDown = true;
       this.dateTimeToHours.Size = new System.Drawing.Size(68, 20);
@@ -277,7 +278,7 @@
       // 
       this.dateTimeToDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.dateTimeToDays.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-      this.dateTimeToDays.Location = new System.Drawing.Point(215, 244);
+      this.dateTimeToDays.Location = new System.Drawing.Point(215, 270);
       this.dateTimeToDays.Name = "dateTimeToDays";
       this.dateTimeToDays.Size = new System.Drawing.Size(78, 20);
       this.dateTimeToDays.TabIndex = 10;
@@ -286,7 +287,7 @@
       // 
       this.dateTimeFromHours.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.dateTimeFromHours.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-      this.dateTimeFromHours.Location = new System.Drawing.Point(112, 244);
+      this.dateTimeFromHours.Location = new System.Drawing.Point(112, 270);
       this.dateTimeFromHours.Name = "dateTimeFromHours";
       this.dateTimeFromHours.ShowUpDown = true;
       this.dateTimeFromHours.Size = new System.Drawing.Size(68, 20);
@@ -297,7 +298,7 @@
       // 
       this.dateTimeFromDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.dateTimeFromDays.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-      this.dateTimeFromDays.Location = new System.Drawing.Point(28, 244);
+      this.dateTimeFromDays.Location = new System.Drawing.Point(28, 270);
       this.dateTimeFromDays.Name = "dateTimeFromDays";
       this.dateTimeFromDays.Size = new System.Drawing.Size(78, 20);
       this.dateTimeFromDays.TabIndex = 8;
@@ -310,14 +311,14 @@
       this.dataGridViewJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-      dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridViewJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+      dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.dataGridViewJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
       this.dataGridViewJobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridViewJobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.JobName,
@@ -329,16 +330,16 @@
       this.dataGridViewJobs.Name = "dataGridViewJobs";
       this.dataGridViewJobs.RowHeadersVisible = false;
       this.dataGridViewJobs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-      this.dataGridViewJobs.Size = new System.Drawing.Size(651, 221);
+      this.dataGridViewJobs.Size = new System.Drawing.Size(656, 247);
       this.dataGridViewJobs.TabIndex = 2;
       this.dataGridViewJobs.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView1_CellMouseDoubleClick);
       // 
       // JobName
       // 
       this.JobName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-      dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.JobName.DefaultCellStyle = dataGridViewCellStyle2;
+      dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+      dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.JobName.DefaultCellStyle = dataGridViewCellStyle6;
       this.JobName.HeaderText = "Проектная работа";
       this.JobName.Name = "JobName";
       this.JobName.ReadOnly = true;
@@ -353,9 +354,9 @@
       // JobDescription
       // 
       this.JobDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      dataGridViewCellStyle3.NullValue = "random";
-      dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.JobDescription.DefaultCellStyle = dataGridViewCellStyle3;
+      dataGridViewCellStyle7.NullValue = "random";
+      dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.JobDescription.DefaultCellStyle = dataGridViewCellStyle7;
       this.JobDescription.HeaderText = "Что сделано";
       this.JobDescription.Name = "JobDescription";
       this.JobDescription.ReadOnly = true;
@@ -364,9 +365,9 @@
       // JobRate
       // 
       this.JobRate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-      dataGridViewCellStyle4.Format = "N2";
-      dataGridViewCellStyle4.NullValue = "1";
-      this.JobRate.DefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle8.Format = "N2";
+      dataGridViewCellStyle8.NullValue = "1";
+      this.JobRate.DefaultCellStyle = dataGridViewCellStyle8;
       this.JobRate.HeaderText = "доля участия";
       this.JobRate.Name = "JobRate";
       this.JobRate.Width = 98;
@@ -374,7 +375,7 @@
       // buttonJobDescriptions
       // 
       this.buttonJobDescriptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.buttonJobDescriptions.Location = new System.Drawing.Point(494, 352);
+      this.buttonJobDescriptions.Location = new System.Drawing.Point(499, 378);
       this.buttonJobDescriptions.Name = "buttonJobDescriptions";
       this.buttonJobDescriptions.Size = new System.Drawing.Size(102, 23);
       this.buttonJobDescriptions.TabIndex = 5;
@@ -388,7 +389,7 @@
       this.checkBoxWhatIf.AutoSize = true;
       this.checkBoxWhatIf.Checked = true;
       this.checkBoxWhatIf.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBoxWhatIf.Location = new System.Drawing.Point(596, 8);
+      this.checkBoxWhatIf.Location = new System.Drawing.Point(601, 8);
       this.checkBoxWhatIf.Name = "checkBoxWhatIf";
       this.checkBoxWhatIf.Size = new System.Drawing.Size(58, 17);
       this.checkBoxWhatIf.TabIndex = 6;
@@ -401,13 +402,15 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.buttonExit;
-      this.ClientSize = new System.Drawing.Size(689, 387);
+      this.ClientSize = new System.Drawing.Size(694, 413);
+      this.Controls.Add(this.checkBoxJobName);
       this.Controls.Add(this.checkBoxWhatIf);
       this.Controls.Add(this.buttonJobDescriptions);
       this.Controls.Add(this.tabControl1);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.buttonExit);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MinimumSize = new System.Drawing.Size(705, 227);
       this.Name = "MainForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -417,7 +420,6 @@
       this.Shown += new System.EventHandler(this.MainForm_Shown);
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
-      this.tabPage1.PerformLayout();
       this.tabPageJobs.ResumeLayout(false);
       this.tabPageJobs.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewJobs)).EndInit();

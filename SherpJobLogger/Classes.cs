@@ -120,27 +120,27 @@ namespace SherpJobLogger {
     /// <summary>
     /// Начало рабочего отрезка
     /// </summary>
-    public DateTime from { get; }
+    public DateTime From { get; }
 
     /// <summary>
     /// Окончание рабочего отрезка
     /// </summary>
-    public DateTime to { get; }
+    public DateTime To { get; }
 
     /// <summary>
     /// Продолжительность рабочего отрезка
     /// </summary>
     public double Length {
       get {
-        return this.to.Hour - this.from.Hour;
+        return this.To.Hour - this.From.Hour;
       }
     }
 
     #endregion Properties
 
     public WorkSpan(DateTime f, DateTime t) {
-      this.from = f;
-      this.to = t;
+      this.From = f;
+      this.To = t;
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ namespace SherpJobLogger {
     /// <param name="Jobs"></param>
     /// <param name="Debug"></param>
     /// <returns></returns>
-    public bool registerJob(List<JobLog> Jobs, bool Debug) {
+    public bool RegisterJob(List<JobLog> Jobs, bool Debug) {
       var filteredJobs = Jobs.Where(x => x.Hours > this.Length).ToList();
       if (filteredJobs.Count <= 0) return false;
 
@@ -159,16 +159,17 @@ namespace SherpJobLogger {
 
       string Description = (jobLog.Description == "random") ? MainForm.GetRandomJobDescription() : jobLog.Description;
       JobLog loggedJob = new JobLog(jobLog, Description) {
-        BeginDateTime = this.@from,
-        EndDateTime = this.to
+        BeginDateTime = this.From,
+        EndDateTime = this.To
       };
       if (Debug) {
-        List<string> DebMessage = new List<string>();
-        DebMessage.Add($"Дата:{loggedJob.BeginDateTime.ToShortDateString()}:");
-        DebMessage.Add($"С {loggedJob.BeginDateTime.ToShortTimeString()}, по {loggedJob.EndDateTime.ToShortTimeString()} - {loggedJob.LengthCurrentJob()}  часов");
-        DebMessage.Add($"Наименование контрагента: {loggedJob.Task.ContractorName}");
-        DebMessage.Add($"WorkName: {loggedJob.Task.WorkName}");
-        DebMessage.Add($"Что сделано: {loggedJob.Description}");
+        List<string> DebMessage = new List<string> {
+          $"Дата:{loggedJob.BeginDateTime.ToShortDateString()}:",
+          $"С {loggedJob.BeginDateTime.ToShortTimeString()}, по {loggedJob.EndDateTime.ToShortTimeString()} - {loggedJob.LengthCurrentJob()}  часов",
+          $"Наименование контрагента: {loggedJob.Task.ContractorName}",
+          $"WorkName: {loggedJob.Task.WorkName}",
+          $"Что сделано: {loggedJob.Description}"
+        };
         RichMessageBox.ShowNew(DebMessage);
         //return false;
       }
