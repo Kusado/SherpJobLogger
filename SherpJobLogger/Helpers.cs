@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.IO;
 
 namespace SherpJobLogger {
@@ -61,6 +63,103 @@ namespace SherpJobLogger {
       writer.Flush();
       stream.Position = 0;
       return stream;
+    }
+
+    public static string ToNiceString(int num, NiceStringType type) {
+
+      int digit = num % 10;
+
+      string result = String.Empty;
+      switch (type) {
+        case NiceStringType.Hours:
+          switch (digit) {
+            case 1:
+              result = "час";
+              break;
+            case 2:
+            case 3:
+            case 4:
+              result = "часа";
+              break;
+            default:
+              result = "часов";
+              break;
+          }
+          break;
+        case NiceStringType.Days:
+          switch (digit) {
+            case 1:
+              result = "день";
+              break;
+            case 2:
+            case 3:
+            case 4:
+              result = "дня";
+              break;
+            default:
+              result = "дней";
+              break;
+          }
+          break;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(type), type, null);
+      }
+
+      return result;
+    }
+    public static string ToNiceString(double num, NiceStringType type) {
+      return ToNiceString((int)Math.Floor(num), type);
+    }
+
+    /// <summary>
+    /// Биндилка таблицы в класс
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="dt"></param>
+    /// <returns></returns>
+    public static T BindData<T>(DataTable dt) {
+      DataRow dr = dt.Rows[0];
+
+      // Get all columns' name
+      List<string> columns = new List<string>();
+      foreach (DataColumn dc in dt.Columns) {
+        columns.Add(dc.ColumnName);
+      }
+
+      // Create object
+      var ob = Activator.CreateInstance<T>();
+
+      // Get all fields
+      var fields = typeof(T).GetFields();
+      foreach (var fieldInfo in fields) {
+        if (columns.Contains(fieldInfo.Name)) {
+          // Fill the data into the field
+          fieldInfo.SetValue(ob, dr[fieldInfo.Name]);
+        }
+      }
+
+      // Get all properties
+      var properties = typeof(T).GetProperties();
+      foreach (var propertyInfo in properties) {
+        if (columns.Contains(propertyInfo.Name)) {
+          // Fill the data into the property
+          try {
+            propertyInfo.SetValue(ob, dr[propertyInfo.Name]);
+          }
+          catch (ArgumentException) {
+            if (propertyInfo.PropertyType == typeof(Guid) && dr[propertyInfo.Name] == null) {
+              propertyInfo.SetValue(ob, Guid.Empty);
+            }
+          }
+        }
+      }
+
+      return ob;
+    }
+
+    public enum NiceStringType {
+      Hours,
+      Days
     }
   }
 }

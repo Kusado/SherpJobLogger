@@ -33,6 +33,13 @@ namespace SherpJobLogger {
       this.checkBox1.ForeColor = Color.Green;
       this.checkBox1.Checked = false;
 
+      var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+      this.label3.Text = version.ToString();
+      this.label3.Parent = this.pictureBox1;
+      this.label3.BackColor = Color.Transparent;
+      this.label3.ForeColor = Color.Green;
+
+
 
       Status = String.Empty;
     }

@@ -17,7 +17,7 @@ namespace SherpJobLogger {
 
     public static SqlConnection SqlConnection;
     public bool SqlConnected { get; set; }
-    private int UserId { get; set; }
+    private Users CurrentUser { get; set; }
     private static Guid ExecutorGuid { get; set; }
     private bool ExecutorExists { get; set; }
     private List<LGTask> Work { get; set; }

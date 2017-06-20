@@ -14,9 +14,10 @@ namespace SherpJobLogger {
 
     private void MainForm_Load(object sender, EventArgs e) {
       Splash.Status = "GetCurentUserID";
-      this.label1.Text = $@"Your ID is: {GetCurentUserID()}";
+      this.CurrentUser = GetCurentUserID();
+      this.label1.Text = $@"Your ID is: {this.CurrentUser.IDUser}. Your name is: {this.CurrentUser.FullName}";
       Splash.Status = "Get Executor ID";
-      if (Settings.pType == ProjectControl.RFM) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID(this.UserId)}";
+      if (Settings.pType == ProjectControl.RFM) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID(this.CurrentUser.IDUser)}";
       if (Settings.pType == ProjectControl.LG) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID()}";
 
       if (this.ExecutorExists) {
@@ -91,6 +92,7 @@ namespace SherpJobLogger {
     }
 
     private void ButtonRegisterJobs_Click(object sender, EventArgs e) {
+
       RegisterJobs();
     }
 

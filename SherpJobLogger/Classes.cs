@@ -206,6 +206,48 @@ namespace SherpJobLogger {
     }
   }
 
+  public class Users {
+    #region Instance Properties
+    public Int32 IDUser { get; set; }
+
+    public Guid IDFavoriteMenu { get; set; }
+
+    public String EMail { get; set; }
+
+    public Int32? IDAuthor { get; set; }
+
+    public DateTime CreateDate { get; set; }
+
+    public Int32? IDModifier { get; set; }
+
+    public DateTime? ModifyDate { get; set; }
+
+    public String ModifyLogin { get; set; }
+
+    public Guid IDOrg { get; set; }
+
+    public Guid IDUserGuid { get; set; }
+
+    public Guid IDDesktop { get; set; }
+
+    public Guid IDShortcut { get; set; }
+
+    public String FirstName { get; set; }
+
+    public String MiddleName { get; set; }
+
+    public String LastName { get; set; }
+
+    public String FullName { get; set; }
+
+    public String ShortName { get; set; }
+
+    public Object Settings { get; set; }
+
+
+
+    #endregion Instance Properties}
+
   public enum ProjectControl {
     LG,
     RFM

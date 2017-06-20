@@ -15,12 +15,12 @@
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+#[Rr]elease/
 [Rr]eleases/
 x64/
 x86/
 bld/
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
 [Ll]og/
 
@@ -286,3 +286,10 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/SherpJobLogger/bin/Release/app.publish
+/SherpJobLogger/bin/Release/app.publish
+/SherpJobLogger/bin/Release/app.publish/SherpJobLogger.exe
+/SherpJobLogger/bin/Release/SherpJobLogger.exe.manifest
+/SherpJobLogger/bin/Release/SherpJobLogger.exe.config
+/SherpJobLogger/bin/Release/SherpJobLogger.application
+/SherpJobLogger/bin/Release/Newtonsoft.Json.xml

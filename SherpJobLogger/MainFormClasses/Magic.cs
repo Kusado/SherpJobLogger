@@ -13,14 +13,21 @@ namespace SherpJobLogger {
 
 
 
-    private int GetCurentUserID() {
-      string q = @"DECLARE @Uid int SET @Uid = dbo.GetCurrentUser() select @Uid";
+    private Users GetCurentUserID() {
+      //string q = @"DECLARE @Uid int SET @Uid = dbo.GetCurrentUser() select @Uid";
+      string q = @"SELECT * FROM [KB].[dbo].[CurrentUser]";
       DataTable dt = GetSqlDataTable(q);
-      int result = Convert.ToInt32(dt.Rows[0].ItemArray[0].ToString());
-      this.UserId = result;
-      return this.UserId;
+      Users currentUser = Helpers.BindData<Users>(dt);
+      //this.CurrentUser = currentUser;
+      return currentUser;
     }
 
+
+    /// <summary>
+    /// Возвращает ExecutorID текущего, либо указанного пользователя.
+    /// </summary>
+    /// <param name="id">IDUser</param>
+    /// <returns></returns>
     private Guid GetExecutorID(int id = -1) {
       string q = string.Empty;
       if (id == -1) q = $"SELECT [IdExecutor],[Login] FROM [ProjectControl].[dbo].[vExecutorCurrent]";
@@ -242,6 +249,29 @@ namespace SherpJobLogger {
       List<JobLog> jobs = GetJobRates();
       List<SherpJobLogger.WorkSpan> AllSpans = GetWorkSpans();
       List<WorkSpan> workSpans = AllSpans.OrderByDescending(x => x.Length).ToList();
+
+      string message = string.Empty;
+      var days = GetWorkDates();
+      message += $"{days.Count} рабочих {Helpers.ToNiceString(days.Count, Helpers.NiceStringType.Days)}:{Environment.NewLine}";
+      int idt = 0;
+      foreach (DateTime day in days) {
+        message += day.ToShortDateString();
+        if (idt == 2) { message += Environment.NewLine; idt = 0; }
+        else {
+          message += "  ";
+          idt++;
+        }
+      }
+      message += Environment.NewLine;
+
+      message += "Будут заполнены работы:" + Environment.NewLine;
+      foreach (JobLog job in jobs) {
+        message += $"{job.Task.WorkText} - {job.Hours} {Helpers.ToNiceString(job.Hours, Helpers.NiceStringType.Hours)}.{Environment.NewLine}";
+      }
+
+      DialogResult answer = MessageBox.Show(message, "Подтверждение.", MessageBoxButtons.YesNo);
+      if (answer != DialogResult.Yes) return;
+
       foreach (WorkSpan span in workSpans) {
         span.RegisterJob(jobs, this.checkBoxWhatIf.Checked);
         AllSpans.Remove(span);
@@ -426,7 +456,6 @@ namespace SherpJobLogger {
     /// <param name="d"></param>
     /// <returns></returns>
     private static bool IsHoliday(DateTime d) {
-      //ToDo: Реализовать посик праздничных дней.
       return calendar.IsHoliday(d);
     }
 
