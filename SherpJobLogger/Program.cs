@@ -64,13 +64,14 @@ namespace SherpJobLogger {
 
       string query = "[dbo].[AddTelemetry]";
       using (SqlCommand cmd = new SqlCommand(query, SqlFenix) { CommandType = CommandType.StoredProcedure }) {
-        SqlParameter appStartDate, userName, compName, id;
+        SqlParameter appStartDate, userName, compName, id, appVersion;
         (appStartDate = new SqlParameter("@AppStartDate", SqlDbType.DateTime)).Value = DateTime.Now;
+        (appVersion = new SqlParameter("@appVersion", SqlDbType.NVarChar)).Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         (userName = new SqlParameter("@UserName", SqlDbType.NVarChar)).Value = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         (compName = new SqlParameter("@ComputerName", SqlDbType.NVarChar)).Value = Helpers.GetFQDN();
         (id = new SqlParameter("@ID", SqlDbType.UniqueIdentifier)).Value = TelemetryGuid;
 
-        cmd.Parameters.AddRange(new SqlParameter[] { appStartDate, userName, compName, id });
+        cmd.Parameters.AddRange(new SqlParameter[] { appStartDate, userName, compName, id, appVersion });
         cmd.ExecuteNonQuery();
       }
     }
