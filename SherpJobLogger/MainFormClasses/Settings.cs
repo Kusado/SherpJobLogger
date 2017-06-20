@@ -24,16 +24,15 @@ namespace SherpJobLogger {
     private List<LGTask> SelectedJobs { get; set; }
     public Splash Splash { get; set; }
     public static Settings Settings;
+    
     private OPD Opd;
     public static ProductionCalendar calendar;
 
     #endregion Properties
 
-    public void SetupVars(ProjectControl pType) {
-      Splash = Splash.ShowSplash(this);
-      Splash.Status = "Loading settings...";
+    public void SetupVars(ProjectControl pType, bool LoadDefault) {
       Settings = new Settings();
-      LoadSettings();
+      LoadSettings(LoadDefault);
       if (!ApplySettings(out Exception e)) { RichMessageBox.ShowNew(e.Message); return; }
       Settings.pType = pType;
       Splash.Status = "Connecting to SQL...";
@@ -45,6 +44,11 @@ namespace SherpJobLogger {
         ApiKey = "b4cf9c9bcf820263c676baedee59acd2"
       };
       calendar = this.Opd.GetProductionCalendar();
+    }
+
+    public void ShowSplash() {
+      Splash = Splash.ShowSplash(this);
+      Splash.Status = "Loading settings...";
     }
 
     public bool ApplySettings(out Exception exception) {
@@ -64,11 +68,14 @@ namespace SherpJobLogger {
       return true;
     }
 
-    private void LoadSettings() {
-      Splash.Status = "Loading settings from registry...";
-      Settings = Settings.LoadSettings(out bool loaded);
-      if (!loaded) {
-        LoadDefaultSettings();
+    private void LoadSettings(bool LoadDefault) {
+      if (LoadDefault) { LoadDefaultSettings(); }
+      else {
+        Splash.Status = "Loading settings from registry...";
+        Settings = Settings.LoadSettings(out bool loaded);
+        if (!loaded) {
+          LoadDefaultSettings();
+        }
       }
     }
 

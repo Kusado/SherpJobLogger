@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SherpJobLogger {
@@ -21,7 +23,10 @@ namespace SherpJobLogger {
       else pType = ProjectControl.LG;
 
       MainForm = new MainForm();
-      MainForm.SetupVars(pType);
+      MainForm.ShowSplash();
+      Thread.Sleep(1347);
+      MainForm.Splash.HideDefaultSettingsChekcbox();
+      MainForm.SetupVars(pType, MainForm.Splash.LoadDefaults);
       if (!MainForm.SqlConnected) return;
       Application.Run(MainForm);
     }

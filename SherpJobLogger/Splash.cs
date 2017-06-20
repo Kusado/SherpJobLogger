@@ -7,6 +7,7 @@ namespace SherpJobLogger {
 
   public partial class Splash : Form {
     public Thread MyThread;
+    public bool LoadDefaults;
     private string _status;
 
     public string Status {
@@ -21,8 +22,18 @@ namespace SherpJobLogger {
       InitializeComponent();
       this.label1.Parent = this.pictureBox1;
       this.label1.BackColor = Color.Transparent;
+      this.label1.ForeColor = Color.Green;
+
       this.label2.Parent = this.pictureBox1;
       this.label2.BackColor = Color.Transparent;
+      this.label2.ForeColor = Color.Green;
+
+      this.checkBox1.Parent = this.pictureBox1;
+      this.checkBox1.BackColor = Color.Transparent;
+      this.checkBox1.ForeColor = Color.Green;
+      this.checkBox1.Checked = false;
+
+
       Status = String.Empty;
     }
 
@@ -48,11 +59,19 @@ namespace SherpJobLogger {
       this.Invoke((MethodInvoker)delegate { this.Close(); });
     }
 
+    public void HideDefaultSettingsChekcbox() {
+      this.Invoke((MethodInvoker)delegate { this.checkBox1.Visible = false; });
+    }
+
     private void ButtonCancel_Click(object sender, EventArgs e) {
       this.Close();
     }
 
     private void Splash_FormClosing(object sender, FormClosingEventArgs e) {
+    }
+
+    private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+      this.LoadDefaults = this.checkBox1.Checked;
     }
   }
 }
