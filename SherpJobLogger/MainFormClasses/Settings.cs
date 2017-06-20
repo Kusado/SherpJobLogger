@@ -15,7 +15,7 @@ namespace SherpJobLogger {
 
     #region Properties
 
-    public static SqlConnection SqlConnection;
+    private static SqlConnection SqlConnection;
     public bool SqlConnected { get; set; }
     private Users CurrentUser { get; set; }
     private static Guid ExecutorGuid { get; set; }
@@ -26,7 +26,7 @@ namespace SherpJobLogger {
     public static Settings Settings;
     
     private OPD Opd;
-    public static ProductionCalendar calendar;
+    private static ProductionCalendar calendar;
 
     #endregion Properties
 

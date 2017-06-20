@@ -207,7 +207,8 @@ namespace SherpJobLogger {
   }
 
   public class Users {
-    #region Instance Properties
+    #region Instance Properties
+
     public Int32 IDUser { get; set; }
 
     public Guid IDFavoriteMenu { get; set; }
@@ -246,7 +247,8 @@ namespace SherpJobLogger {
 
 
 
-    #endregion Instance Properties}
+    #endregion Instance Properties
+}
 
   public enum ProjectControl {
     LG,

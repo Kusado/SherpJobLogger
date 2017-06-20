@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Net;
+using System.Net.NetworkInformation;
 
 namespace SherpJobLogger {
 
@@ -160,6 +162,18 @@ namespace SherpJobLogger {
     public enum NiceStringType {
       Hours,
       Days
+    }
+    public static string GetFQDN() {
+      string domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
+      string hostName = Dns.GetHostName();
+
+      domainName = "." + domainName;
+      if (!hostName.EndsWith(domainName))  // if hostname does not already include domain name
+      {
+        hostName += domainName;   // add the domain name part
+      }
+
+      return hostName;                    // return the fully qualified name
     }
   }
 }
