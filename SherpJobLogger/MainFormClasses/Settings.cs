@@ -47,7 +47,7 @@ namespace SherpJobLogger {
     }
 
     public void ShowSplash() {
-      Splash = Splash.ShowSplash(this);
+      Splash = Splash.ShowSplash();
       Splash.Status = "Loading settings...";
     }
 

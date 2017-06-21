@@ -44,13 +44,14 @@ namespace SherpJobLogger {
       Status = String.Empty;
     }
 
-    private MainForm mainForm;
+    //private MainForm mainForm{ get; set; }
 
     public delegate void CloseDel();
 
-    public static Splash ShowSplash(MainForm mainForm) {
+    public static Splash ShowSplash(string Status1 = "Загрузка...") {
       Splash s = new Splash();
-      s.mainForm = mainForm;
+      s.label1.Text = Status1;
+      //s.mainForm = mainForm;
       s.MyThread = new Thread(s._showSplash);
       s.MyThread.Start();
 

@@ -92,7 +92,6 @@ namespace SherpJobLogger {
     }
 
     private void ButtonRegisterJobs_Click(object sender, EventArgs e) {
-
       RegisterJobs();
     }
 

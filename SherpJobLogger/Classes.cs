@@ -150,12 +150,13 @@ namespace SherpJobLogger {
     /// <param name="Jobs"></param>
     /// <param name="Debug"></param>
     /// <returns></returns>
-    public bool RegisterJob(List<JobLog> Jobs, bool Debug) {
+    public bool RegisterJob(List<JobLog> Jobs, bool Debug, Splash splash = null) {
       var filteredJobs = Jobs.Where(x => x.Hours > this.Length).ToList();
       if (filteredJobs.Count <= 0) return false;
 
       JobLog jobLog = MainForm.GetRandomJobLog(filteredJobs);
       jobLog.Hours -= this.Length;
+      if (splash != null) splash.Status = jobLog.Task.WorkText;
 
       string Description = (jobLog.Description == "random") ? MainForm.GetRandomJobDescription() : jobLog.Description;
       JobLog loggedJob = new JobLog(jobLog, Description) {
@@ -248,7 +249,7 @@ namespace SherpJobLogger {
 
 
     #endregion Instance Properties
-}
+  }
 
   public enum ProjectControl {
     LG,

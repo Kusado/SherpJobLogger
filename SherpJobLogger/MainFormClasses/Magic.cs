@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using OpenDataParser;
 
@@ -272,10 +273,15 @@ namespace SherpJobLogger {
       DialogResult answer = MessageBox.Show(message, "Подтверждение.", MessageBoxButtons.YesNo);
       if (answer != DialogResult.Yes) return;
 
+      Splash workRegSplah = Splash.ShowSplash("Заполнение работ");
       foreach (WorkSpan span in workSpans) {
-        span.RegisterJob(jobs, this.checkBoxWhatIf.Checked);
+        span.RegisterJob(jobs, this.checkBoxWhatIf.Checked, workRegSplah);
         AllSpans.Remove(span);
+        int t = Program.rnd.Next(750, 2500);
+        workRegSplah.Status += $"\t Sleeping for {t} ms.";
+        Thread.Sleep(t);
       }
+      workRegSplah.CloseSplash();
 
       /*Возможна ситуация, когда не удастся все работы кратно распихать по рабочим отрезкам.
       В таком случае покажем пользователю окошко со списком работ, которые не влезли*/

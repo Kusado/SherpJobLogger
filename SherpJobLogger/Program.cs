@@ -24,7 +24,6 @@ namespace SherpJobLogger {
     private static void Main(string[] args) {
       rnd = new Random();
       BeginTelemetry();
-      //string[] bannedLogins = new[] { "shel", "shib", "ramo" };
       if (!checkLogins()) {
         EndTelemetry();
         throw new AmbiguousMatchException(RandomString());
