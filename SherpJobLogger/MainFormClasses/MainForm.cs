@@ -49,7 +49,7 @@ namespace SherpJobLogger {
     }
 
     private void ButtonExit_Click(object sender, EventArgs e) {
-      Application.Exit();
+      this.Close();
     }
 
     private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e) {

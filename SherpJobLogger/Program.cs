@@ -66,7 +66,7 @@ namespace SherpJobLogger {
       using (SqlCommand cmd = new SqlCommand(query, SqlFenix) { CommandType = CommandType.StoredProcedure }) {
         SqlParameter appStartDate, userName, compName, id, appVersion;
         (appStartDate = new SqlParameter("@AppStartDate", SqlDbType.DateTime)).Value = DateTime.Now;
-        (appVersion = new SqlParameter("@appVersion", SqlDbType.NVarChar)).Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        (appVersion = new SqlParameter("@appVersion", SqlDbType.NVarChar)).Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         (userName = new SqlParameter("@UserName", SqlDbType.NVarChar)).Value = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         (compName = new SqlParameter("@ComputerName", SqlDbType.NVarChar)).Value = Helpers.GetFQDN();
         (id = new SqlParameter("@ID", SqlDbType.UniqueIdentifier)).Value = TelemetryGuid;

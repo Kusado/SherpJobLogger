@@ -24,7 +24,7 @@ namespace SherpJobLogger {
     private List<LGTask> SelectedJobs { get; set; }
     public Splash Splash { get; set; }
     public static Settings Settings;
-    
+
     private OPD Opd;
     private static ProductionCalendar calendar;
 
@@ -130,8 +130,8 @@ namespace SherpJobLogger {
 
     public Settings() {
       this.regKeyPath = @"SOFTWARE\KusaderSoft\";
-      this.regValueName = "string";
-      this.regKey = Registry.CurrentUser.OpenSubKey(this.regKeyPath, true);
+      this.regValueName = "SherpLoggerSettings";
+      this.regKey = Registry.CurrentUser.CreateSubKey(this.regKeyPath, RegistryKeyPermissionCheck.Default);
     }
 
     public Settings LoadSettings(out bool b) {
