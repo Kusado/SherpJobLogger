@@ -23,17 +23,16 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.buttonExit = new System.Windows.Forms.Button();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
-      this.checkBoxJobName = new System.Windows.Forms.CheckBox();
       this.treeViewAllJobs = new System.Windows.Forms.TreeView();
       this.tabPageJobs = new System.Windows.Forms.TabPage();
       this.label7 = new System.Windows.Forms.Label();
@@ -54,8 +53,11 @@
       this.IDWork = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.JobDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.JobRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.checkBoxJobName = new System.Windows.Forms.CheckBox();
       this.buttonJobDescriptions = new System.Windows.Forms.Button();
       this.checkBoxWhatIf = new System.Windows.Forms.CheckBox();
+      this.checkBoxRandomize = new System.Windows.Forms.CheckBox();
+      this.checkBoxDelay = new System.Windows.Forms.CheckBox();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.tabPageJobs.SuspendLayout();
@@ -115,19 +117,6 @@
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "Выбор проектных работ.";
       this.tabPage1.UseVisualStyleBackColor = true;
-      // 
-      // checkBoxJobName
-      // 
-      this.checkBoxJobName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.checkBoxJobName.AutoSize = true;
-      this.checkBoxJobName.Checked = true;
-      this.checkBoxJobName.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBoxJobName.Location = new System.Drawing.Point(12, 384);
-      this.checkBoxJobName.Name = "checkBoxJobName";
-      this.checkBoxJobName.Size = new System.Drawing.Size(207, 17);
-      this.checkBoxJobName.TabIndex = 8;
-      this.checkBoxJobName.Text = "Включать имена проектов в задачи";
-      this.checkBoxJobName.UseVisualStyleBackColor = true;
       // 
       // treeViewAllJobs
       // 
@@ -311,14 +300,14 @@
       this.dataGridViewJobs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-      dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridViewJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+      dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.dataGridViewJobs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
       this.dataGridViewJobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridViewJobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.JobName,
@@ -337,9 +326,9 @@
       // JobName
       // 
       this.JobName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-      dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.JobName.DefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+      dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.JobName.DefaultCellStyle = dataGridViewCellStyle2;
       this.JobName.HeaderText = "Проектная работа";
       this.JobName.Name = "JobName";
       this.JobName.ReadOnly = true;
@@ -354,9 +343,9 @@
       // JobDescription
       // 
       this.JobDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      dataGridViewCellStyle7.NullValue = "random";
-      dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.JobDescription.DefaultCellStyle = dataGridViewCellStyle7;
+      dataGridViewCellStyle3.NullValue = "random";
+      dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.JobDescription.DefaultCellStyle = dataGridViewCellStyle3;
       this.JobDescription.HeaderText = "Что сделано";
       this.JobDescription.Name = "JobDescription";
       this.JobDescription.ReadOnly = true;
@@ -365,12 +354,25 @@
       // JobRate
       // 
       this.JobRate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-      dataGridViewCellStyle8.Format = "N2";
-      dataGridViewCellStyle8.NullValue = "1";
-      this.JobRate.DefaultCellStyle = dataGridViewCellStyle8;
+      dataGridViewCellStyle4.Format = "N2";
+      dataGridViewCellStyle4.NullValue = "1";
+      this.JobRate.DefaultCellStyle = dataGridViewCellStyle4;
       this.JobRate.HeaderText = "доля участия";
       this.JobRate.Name = "JobRate";
       this.JobRate.Width = 98;
+      // 
+      // checkBoxJobName
+      // 
+      this.checkBoxJobName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.checkBoxJobName.AutoSize = true;
+      this.checkBoxJobName.Checked = true;
+      this.checkBoxJobName.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBoxJobName.Location = new System.Drawing.Point(12, 384);
+      this.checkBoxJobName.Name = "checkBoxJobName";
+      this.checkBoxJobName.Size = new System.Drawing.Size(207, 17);
+      this.checkBoxJobName.TabIndex = 8;
+      this.checkBoxJobName.Text = "Включать имена проектов в задачи";
+      this.checkBoxJobName.UseVisualStyleBackColor = true;
       // 
       // buttonJobDescriptions
       // 
@@ -397,12 +399,40 @@
       this.checkBoxWhatIf.UseVisualStyleBackColor = true;
       this.checkBoxWhatIf.CheckedChanged += new System.EventHandler(this.CheckBoxWhatIf_CheckedChanged);
       // 
+      // checkBoxRandomize
+      // 
+      this.checkBoxRandomize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.checkBoxRandomize.AutoSize = true;
+      this.checkBoxRandomize.Checked = true;
+      this.checkBoxRandomize.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBoxRandomize.Location = new System.Drawing.Point(580, 26);
+      this.checkBoxRandomize.Name = "checkBoxRandomize";
+      this.checkBoxRandomize.Size = new System.Drawing.Size(79, 17);
+      this.checkBoxRandomize.TabIndex = 9;
+      this.checkBoxRandomize.Text = "Randomize";
+      this.checkBoxRandomize.UseVisualStyleBackColor = true;
+      // 
+      // checkBoxDelay
+      // 
+      this.checkBoxDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.checkBoxDelay.AutoSize = true;
+      this.checkBoxDelay.Checked = true;
+      this.checkBoxDelay.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBoxDelay.Location = new System.Drawing.Point(465, 26);
+      this.checkBoxDelay.Name = "checkBoxDelay";
+      this.checkBoxDelay.Size = new System.Drawing.Size(109, 17);
+      this.checkBoxDelay.TabIndex = 10;
+      this.checkBoxDelay.Text = "JogRegisterDelay";
+      this.checkBoxDelay.UseVisualStyleBackColor = true;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.buttonExit;
       this.ClientSize = new System.Drawing.Size(694, 413);
+      this.Controls.Add(this.checkBoxDelay);
+      this.Controls.Add(this.checkBoxRandomize);
       this.Controls.Add(this.checkBoxJobName);
       this.Controls.Add(this.checkBoxWhatIf);
       this.Controls.Add(this.buttonJobDescriptions);
@@ -458,6 +488,8 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn JobDescription;
     private System.Windows.Forms.DataGridViewTextBoxColumn JobRate;
     private System.Windows.Forms.CheckBox checkBoxWhatIf;
+    private System.Windows.Forms.CheckBox checkBoxRandomize;
+    private System.Windows.Forms.CheckBox checkBoxDelay;
   }
 }
 

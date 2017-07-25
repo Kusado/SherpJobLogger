@@ -277,9 +277,11 @@ namespace SherpJobLogger {
       foreach (WorkSpan span in workSpans) {
         span.RegisterJob(jobs, this.checkBoxWhatIf.Checked, workRegSplah);
         AllSpans.Remove(span);
-        int t = Program.rnd.Next(750, 2500);
-        workRegSplah.Status += $"\t Sleeping for {t} ms.";
-        Thread.Sleep(t);
+        if (this.checkBoxDelay.Checked) {
+          int t = Program.rnd.Next(750, 2500);
+          workRegSplah.Status += $"\t Sleeping for {t} ms.";
+          Thread.Sleep(t);
+        }
       }
       workRegSplah.CloseSplash();
 
@@ -478,12 +480,24 @@ namespace SherpJobLogger {
         DateTime Dayfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerTo.Value.Hour, 0, 0);
         DateTime Dayto = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeToHours.Value.Hour, 0, 0);
 
+
         if (this.checkBoxDinner.Checked) {
-          result.AddRange(WorkSpan.GetWorkSpanList(Morningfrom, Morningto, Program.rnd));
-          result.AddRange(WorkSpan.GetWorkSpanList(Dayfrom, Dayto, Program.rnd));
+          if (this.checkBoxRandomize.Checked) {
+            result.AddRange(WorkSpan.GetWorkSpanList(Morningfrom, Morningto, Program.rnd));
+            result.AddRange(WorkSpan.GetWorkSpanList(Dayfrom, Dayto, Program.rnd));
+          }
+          else {
+            result.Add(new WorkSpan(Morningfrom, Morningto));
+            result.Add(new WorkSpan(Dayfrom, Dayto));
+          }
         }
         else {
-          result.AddRange(WorkSpan.GetWorkSpanList(Morningfrom, Dayto, Program.rnd));
+          if (this.checkBoxRandomize.Checked) {
+            result.AddRange(WorkSpan.GetWorkSpanList(Morningfrom, Dayto, Program.rnd));
+          }
+          else {
+            result.Add(new WorkSpan(Morningfrom, Dayto));
+          }
         }
       }
       return result;
