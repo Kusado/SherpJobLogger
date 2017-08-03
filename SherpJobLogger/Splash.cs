@@ -28,11 +28,6 @@ namespace SherpJobLogger {
       this.label2.BackColor = Color.Transparent;
       this.label2.ForeColor = Color.Green;
 
-      this.checkBox1.Parent = this.pictureBox1;
-      this.checkBox1.BackColor = Color.Transparent;
-      this.checkBox1.ForeColor = Color.Green;
-      this.checkBox1.Checked = false;
-
       var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
       this.label3.Text = version.ToString();
       this.label3.Parent = this.pictureBox1;
@@ -67,19 +62,11 @@ namespace SherpJobLogger {
       this.Invoke((MethodInvoker)delegate { this.Close(); });
     }
 
-    public void HideDefaultSettingsChekcbox() {
-      this.Invoke((MethodInvoker)delegate { this.checkBox1.Visible = false; });
-    }
-
     private void ButtonCancel_Click(object sender, EventArgs e) {
       this.Close();
     }
 
     private void Splash_FormClosing(object sender, FormClosingEventArgs e) {
-    }
-
-    private void checkBox1_CheckedChanged(object sender, EventArgs e) {
-      this.LoadDefaults = this.checkBox1.Checked;
     }
   }
 }

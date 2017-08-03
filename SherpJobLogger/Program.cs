@@ -37,8 +37,7 @@ namespace SherpJobLogger {
 
       MainForm = new MainForm();
       MainForm.ShowSplash();
-      Thread.Sleep(1347);
-      MainForm.Splash.HideDefaultSettingsChekcbox();
+      //Thread.Sleep(1347);
       MainForm.SetupVars(pType, MainForm.Splash.LoadDefaults);
       if (!MainForm.SqlConnected) return;
       Application.Run(MainForm);

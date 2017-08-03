@@ -12,8 +12,6 @@ namespace SherpJobLogger {
 
   public partial class MainForm : Form {
 
-
-
     private Users GetCurentUserID() {
       //string q = @"DECLARE @Uid int SET @Uid = dbo.GetCurrentUser() select @Uid";
       string q = @"SELECT * FROM [KB].[dbo].[CurrentUser]";
