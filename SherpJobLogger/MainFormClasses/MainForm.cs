@@ -1,37 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace SherpJobLogger {
-
   public partial class MainForm : Form {
-
     public MainForm() {
       InitializeComponent();
     }
 
     private void MainForm_Load(object sender, EventArgs e) {
-      Splash.Status = "GetCurentUserID";
+      this.Splash.Status = "GetCurentUserID";
       this.CurrentUser = GetCurentUserID();
       this.label1.Text = $@"Your ID is: {this.CurrentUser.IDUser}. Your name is: {this.CurrentUser.FullName}";
-      Splash.Status = "Get Executor ID";
-      if (Settings.pType == ProjectControl.RFM) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID(this.CurrentUser.IDUser)}";
+      this.Splash.Status = "Get Executor ID";
+      if (Settings.pType == ProjectControl.RFM)
+        this.label2.Text = $@"Your ExecutorID is: {GetExecutorID(this.CurrentUser.IDUser)}";
       if (Settings.pType == ProjectControl.LG) this.label2.Text = $@"Your ExecutorID is: {GetExecutorID()}";
 
       if (this.ExecutorExists) {
-        Splash.Status = "Get Tasks";
+        this.Splash.Status = "Get Tasks";
         this.Work = GetProjectWorkCU();
-        Splash.Status = "Populate tree with tasks";
+        this.Splash.Status = "Populate tree with tasks";
         PopulateJobsTree();
       }
-      else this.treeViewAllJobs.Nodes.Add("No jobs for you...");
-      var now = DateTime.Now;
-      Splash.Status = "Get last logged job time...";
-      if ((this.dateTimeFromDays.Value = GetLastLoggedJobTime()).Date != now.Date) SetDateTimeNBD(this.dateTimeFromDays);
+      else {
+        this.treeViewAllJobs.Nodes.Add("No jobs for you...");
+      }
+      DateTime now = DateTime.Now;
+      this.Splash.Status = "Get last logged job time...";
+      if ((this.dateTimeFromDays.Value = GetLastLoggedJobTime()).Date != now.Date)
+        SetDateTimeNBD(this.dateTimeFromDays);
       this.dateTimeToDays.Value = now;
-      Splash.Status = "Showing main form...";
+      this.Splash.Status = "Showing main form...";
       Show();
       Focus();
       BringToFront();
@@ -39,7 +39,7 @@ namespace SherpJobLogger {
     }
 
     private void MainForm_Shown(object sender, EventArgs e) {
-      Splash.Status = "Closing splash screen";
+      this.Splash.Status = "Closing splash screen";
       this.Splash.CloseSplash();
     }
 
@@ -49,7 +49,7 @@ namespace SherpJobLogger {
     }
 
     private void ButtonExit_Click(object sender, EventArgs e) {
-      this.Close();
+      Close();
     }
 
     private void TreeView1_AfterCheck(object sender, TreeViewEventArgs e) {
@@ -58,8 +58,8 @@ namespace SherpJobLogger {
 
       CheckNodeTree(e.Node, state);
       this.SelectedJobs = GetSelectedJobs();
-      if (this.SelectedJobs.Count > 0) { ((Control)this.tabPageJobs).Hide(); }
-      else { ((Control)this.tabPageJobs).Show(); }
+      if (this.SelectedJobs.Count > 0) this.tabPageJobs.Hide();
+      else this.tabPageJobs.Show();
     }
 
     private void ButtonJobDescriptions_Click(object sender, EventArgs e) {
@@ -83,7 +83,7 @@ namespace SherpJobLogger {
       DataGridViewCell cell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
       if (jdd.DialogResult == DialogResult.OK) {
         Settings.JobDescriptions = jdd.JobDescriptions;
-        List<string> jbz = Settings.JobDescriptions.Select(x => x).ToList();
+        var jbz = Settings.JobDescriptions.Select(x => x).ToList();
         jbz.Add("random");
         cell.Value = jdd.SelectedValue;
         dgv.RefreshEdit();
@@ -96,15 +96,11 @@ namespace SherpJobLogger {
     }
 
     private void CheckBoxWhatIf_CheckedChanged(object sender, EventArgs e) {
-      if (sender is CheckBox chb) {
-        Settings.WhatIfChecked = chb.Checked;
-      }
+      if (sender is CheckBox chb) Settings.WhatIfChecked = chb.Checked;
     }
 
     private void CheckBoxDinner_CheckedChanged(object sender, EventArgs e) {
-      if (sender is CheckBox chb) {
-        Settings.DinnerChecked = chb.Checked;
-      }
+      if (sender is CheckBox chb) Settings.DinnerChecked = chb.Checked;
     }
   }
 }

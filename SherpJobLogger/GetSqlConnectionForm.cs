@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace SherpJobLogger {
-
   public partial class GetSqlConnectionForm : Form {
     public string ConnectionString;
 
@@ -15,24 +14,24 @@ namespace SherpJobLogger {
 
     private void GetSqlConnectionForm_Load(object sender, EventArgs e) {
       this.textBox1.Text = this.ConnectionString;
-      this.Focus();
-      this.BringToFront();
-      this.Activate();
+      Focus();
+      BringToFront();
+      Activate();
     }
 
     private void buttonOk_Click(object sender, EventArgs e) {
       this.ConnectionString = this.textBox1.Text;
       this.DialogResult = DialogResult.OK;
-      this.Close();
+      Close();
     }
 
     private void buttonCancel_Click(object sender, EventArgs e) {
       this.DialogResult = DialogResult.Cancel;
-      this.Close();
+      Close();
     }
 
     private void buttonTest_Click(object sender, EventArgs e) {
-      var btn = (Button)sender;
+      Button btn = (Button) sender;
       SqlConnection test = new SqlConnection(this.ConnectionString);
       try {
         test.Open();

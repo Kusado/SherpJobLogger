@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SherpJobLogger {
-
   public partial class RichMessageBox : Form {
-    public List<string> lines;
     public string caption;
+    public List<string> lines;
 
     public RichMessageBox() {
       InitializeComponent();
@@ -14,8 +13,8 @@ namespace SherpJobLogger {
 
     public static void ShowNew(List<string> sList, string caption = "Message", string description = "") {
       RichMessageBox form = new RichMessageBox {
-        richTextBox1 = { Lines = sList.ToArray() },
-        label1 = { Text = description },
+        richTextBox1 = {Lines = sList.ToArray()},
+        label1 = {Text = description},
         Text = caption,
         StartPosition = FormStartPosition.CenterParent
       };
@@ -25,7 +24,7 @@ namespace SherpJobLogger {
 
     public static void ShowNew(string s, string caption = "Message", string description = "") {
       RichMessageBox form = new RichMessageBox {
-        label1 = { Text = description },
+        label1 = {Text = description},
         Text = caption,
         StartPosition = FormStartPosition.CenterParent
       };
@@ -35,7 +34,7 @@ namespace SherpJobLogger {
     }
 
     private void button1_Click(object sender, EventArgs e) {
-      this.Close();
+      Close();
     }
   }
 }

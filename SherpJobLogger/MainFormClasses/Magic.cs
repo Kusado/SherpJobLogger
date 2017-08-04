@@ -6,12 +6,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using OpenDataParser;
 
 namespace SherpJobLogger {
-
   public partial class MainForm : Form {
-
     private Users GetCurentUserID() {
       //string q = @"DECLARE @Uid int SET @Uid = dbo.GetCurrentUser() select @Uid";
       string q = @"SELECT * FROM [KB].[dbo].[CurrentUser]";
@@ -23,7 +20,7 @@ namespace SherpJobLogger {
 
 
     /// <summary>
-    /// Возвращает ExecutorID текущего, либо указанного пользователя.
+    ///   Возвращает ExecutorID текущего, либо указанного пользователя.
     /// </summary>
     /// <param name="id">IDUser</param>
     /// <returns></returns>
@@ -47,7 +44,7 @@ namespace SherpJobLogger {
 
     private DateTime GetLastLoggedJobTime() {
       DateTime result;
-      string query = String.Empty;
+      string query = string.Empty;
       switch (Settings.pType) {
         case ProjectControl.RFM:
           query = $@"SELECT TOP (1)[OperationDate]
@@ -78,7 +75,8 @@ namespace SherpJobLogger {
     }
 
     private bool IsRFM() {
-      if (Settings.pType == ProjectControl.RFM) return true; else return false;
+      if (Settings.pType == ProjectControl.RFM) return true;
+      return false;
     }
 
     private DataTable GetSqlDataTable(string q) {
@@ -100,16 +98,16 @@ namespace SherpJobLogger {
         result = true;
       }
       catch (SqlException) {
-        var f = new GetSqlConnectionForm(s);
+        GetSqlConnectionForm f = new GetSqlConnectionForm(s);
         f.ShowDialog();
         f.TopMost = true;
-        if (f.DialogResult == DialogResult.OK) { return GetSqlConnection(f.ConnectionString, out con); }
+        if (f.DialogResult == DialogResult.OK) return GetSqlConnection(f.ConnectionString, out con);
       }
       return result;
     }
 
     private List<LGTask> GetProjectWorkCU() {
-      List<LGTask> result = new List<LGTask>();
+      var result = new List<LGTask>();
       string q = string.Empty;
       switch (Settings.pType) {
         case ProjectControl.LG:
@@ -126,9 +124,7 @@ namespace SherpJobLogger {
       }
 
       DataTable dt = GetSqlDataTable(q);
-      foreach (DataRow r in dt.Rows) {
-        result.Add(LGTask.FromDataTable(r));
-      }
+      foreach (DataRow r in dt.Rows) result.Add(LGTask.FromDataTable(r));
       return result;
     }
 
@@ -138,7 +134,7 @@ namespace SherpJobLogger {
 
     private void PopulateJobsTree(List<LGTask> lgw) {
 #if DEBUG
-      var time = DateTime.Now;
+      DateTime time = DateTime.Now;
 #endif
       this.treeViewAllJobs.Nodes.Clear();
       //foreach (var ContName in lgw.GroupBy(Cont => Cont.ContractorName).OrderBy(x => x)) {
@@ -149,10 +145,9 @@ namespace SherpJobLogger {
         foreach (var proj in ContName.GroupBy(y => y.ProjectName)) {
           //foreach (var proj in ContName.OrderBy(x => x.ProjectName).GroupBy(y => y.ProjectName)) {
           TreeNode nodec1 = rootNode.Nodes.Add(proj.Key);
-          foreach (var work in proj.Select(x => x.IDWork).Distinct()) {
-            //foreach (var work in proj.OrderBy(x => x.WorkName).Select(x => x.IDWork).Distinct()) {
-            nodec1.Nodes.Add(work.ToString(), proj.Where(x => x.IDWork.ToString() == work.ToString()).Select(x => x.WorkName).FirstOrDefault());
-          }
+          foreach (Guid work in proj.Select(x => x.IDWork).Distinct())
+            nodec1.Nodes.Add(work.ToString(),
+              proj.Where(x => x.IDWork.ToString() == work.ToString()).Select(x => x.WorkName).FirstOrDefault());
         }
         rootNode.Expand();
       }
@@ -163,9 +158,7 @@ namespace SherpJobLogger {
 
     private static void CheckNodeTree(TreeNode node, bool state) {
       node.Checked = state;
-      foreach (TreeNode childNode in node.Nodes) {
-        CheckNodeTree(childNode, state);
-      }
+      foreach (TreeNode childNode in node.Nodes) CheckNodeTree(childNode, state);
     }
 
     private List<Guid> GetSelectedNodes() {
@@ -173,7 +166,7 @@ namespace SherpJobLogger {
     }
 
     private List<Guid> GetSelectedNodes(TreeView tv) {
-      List<Guid> result = new List<Guid>();
+      var result = new List<Guid>();
       foreach (TreeNode tvNode in tv.Nodes) {
         if (tv.Nodes.Count == 0) break;
         result.AddRange(GetSelectedNodes(tvNode));
@@ -182,22 +175,16 @@ namespace SherpJobLogger {
     }
 
     private List<Guid> GetSelectedNodes(TreeNode tn) {
-      List<Guid> result = new List<Guid>();
-      if (tn.Nodes.Count == 0 && tn.Checked) {
-        result.Add(Guid.Parse(tn.Name));
-      }
-      foreach (TreeNode node in tn.Nodes) {
-        result.AddRange(GetSelectedNodes(node));
-      }
+      var result = new List<Guid>();
+      if (tn.Nodes.Count == 0 && tn.Checked) result.Add(Guid.Parse(tn.Name));
+      foreach (TreeNode node in tn.Nodes) result.AddRange(GetSelectedNodes(node));
       return result;
     }
 
     private List<LGTask> GetSelectedJobs() {
       var nodes = GetSelectedNodes();
       var result = new List<LGTask>();
-      foreach (Guid node in nodes) {
-        result.AddRange(this.Work.Where(x => x.IDWork == node));
-      }
+      foreach (Guid node in nodes) result.AddRange(this.Work.Where(x => x.IDWork == node));
       return result;
     }
 
@@ -206,18 +193,15 @@ namespace SherpJobLogger {
     }
 
     private JobDescriptionsDialog OpenJobDescriptionsDialog() {
-      var jdd = new JobDescriptionsDialog(Settings.JobDescriptions);
-      jdd.ShowInTaskbar = false;
+      JobDescriptionsDialog jdd = new JobDescriptionsDialog(Settings.JobDescriptions) {ShowInTaskbar = false};
       jdd.Activate();
       jdd.ShowDialog();
-      if (jdd.DialogResult == DialogResult.OK) {
-        Settings.JobDescriptions = jdd.JobDescriptions;
-      }
+      if (jdd.DialogResult == DialogResult.OK) Settings.JobDescriptions = jdd.JobDescriptions;
       return jdd;
     }
 
     private void FillGridWithJobs() {
-      List<string> jbz = Settings.JobDescriptions.Select(x => x).ToList();
+      var jbz = Settings.JobDescriptions.Select(x => x).ToList();
       jbz.Add("random");
       DataGridView dgv = this.dataGridViewJobs;
       DataGridViewCellStyle temp = dgv.Columns[2].DefaultCellStyle;
@@ -233,29 +217,31 @@ namespace SherpJobLogger {
     }
 
     private int GetJobRatesSum() {
-      var dgv = this.dataGridViewJobs;
+      DataGridView dgv = this.dataGridViewJobs;
       int JobRateSum = 0;
       foreach (DataGridViewRow r in dgv.Rows) {
         DataGridViewCell cell = r.Cells[3];
-        if (cell.FormattedValue != null) {
-          JobRateSum += int.Parse(cell.FormattedValue.ToString());
-        }
+        if (cell.FormattedValue != null) JobRateSum += int.Parse(cell.FormattedValue.ToString());
       }
       return JobRateSum;
     }
 
     private void RegisterJobs() {
-      List<JobLog> jobs = GetJobRates();
-      List<SherpJobLogger.WorkSpan> AllSpans = GetWorkSpans();
-      List<WorkSpan> workSpans = AllSpans.OrderByDescending(x => x.Length).ToList();
+      var jobs = GetJobRates();
+      var AllSpans = GetWorkSpans();
+      var workSpans = AllSpans.OrderByDescending(x => x.Length).ToList();
 
       string message = string.Empty;
       var days = GetWorkDates();
-      message += $"{days.Count} рабочих {Helpers.ToNiceString(days.Count, Helpers.NiceStringType.Days)}:{Environment.NewLine}";
+      message +=
+        $"{days.Count} рабочих {Helpers.ToNiceString(days.Count, Helpers.NiceStringType.Days)}:{Environment.NewLine}";
       int idt = 0;
       foreach (DateTime day in days) {
         message += day.ToShortDateString();
-        if (idt == 2) { message += Environment.NewLine; idt = 0; }
+        if (idt == 2) {
+          message += Environment.NewLine;
+          idt = 0;
+        }
         else {
           message += "  ";
           idt++;
@@ -264,34 +250,32 @@ namespace SherpJobLogger {
       message += Environment.NewLine;
 
       message += "Будут заполнены работы:" + Environment.NewLine;
-      foreach (JobLog job in jobs) {
-        message += $"{job.Task.WorkText} - {job.Hours} {Helpers.ToNiceString(job.Hours, Helpers.NiceStringType.Hours)}.{Environment.NewLine}";
-      }
+      foreach (JobLog job in jobs)
+        message +=
+          $"{job.Task.WorkText} - {job.Hours} {Helpers.ToNiceString(job.Hours, Helpers.NiceStringType.Hours)}.{Environment.NewLine}";
 
       DialogResult answer = MessageBox.Show(message, "Подтверждение.", MessageBoxButtons.YesNo);
       if (answer != DialogResult.Yes) return;
 
-      Splash workRegSplah = Splash.ShowSplash("Заполнение работ");
+      Splash workRegSplash = Splash.ShowSplash("Заполнение работ");
       foreach (WorkSpan span in workSpans) {
-        span.RegisterJob(jobs, this.checkBoxWhatIf.Checked, workRegSplah);
+        span.RegisterJob(jobs, this.checkBoxWhatIf.Checked, workRegSplash);
         AllSpans.Remove(span);
         if (this.checkBoxDelay.Checked) {
           int t = Program.rnd.Next(750, 2500);
-          workRegSplah.Status += $"\t Sleeping for {t} ms.";
+          workRegSplash.Status += $"\t Sleeping for {t} ms.";
           Thread.Sleep(t);
         }
       }
-      workRegSplah.CloseSplash();
+      workRegSplash.CloseSplash();
 
       /*Возможна ситуация, когда не удастся все работы кратно распихать по рабочим отрезкам.
       В таком случае покажем пользователю окошко со списком работ, которые не влезли*/
       var remainingJobs = jobs.Where(x => x.Hours > 0);
       if (remainingJobs.Any()) {
-        List<string> remainingJobsReport = new List<string>();
-        remainingJobsReport.Add($"Не удалось автоматически распихать: ");
-        foreach (JobLog job in remainingJobs) {
+        var remainingJobsReport = new List<string> {$"Не удалось автоматически распихать: "};
+        foreach (JobLog job in remainingJobs)
           remainingJobsReport.Add($"{Environment.NewLine}{job.Task.WorkName}, число часов:{job.Hours}");
-        }
         RichMessageBox.ShowNew(remainingJobsReport);
       }
     }
@@ -305,7 +289,7 @@ namespace SherpJobLogger {
     }
 
     /// <summary>
-    /// Регистрируем выполненную работу на серевере
+    ///   Регистрируем выполненную работу на серевере
     /// </summary>
     /// <param name="jobLog">JobLog работы для регистрации на сервере</param>
     /// <returns>Если не было исключений, вернём true</returns>
@@ -329,7 +313,8 @@ namespace SherpJobLogger {
         cmd = new SqlCommand(query, SqlConnection);
       }
       catch (Exception exception) {
-        DialogResult answer = MessageBox.Show(exception.Message, exception.Source, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+        DialogResult answer = MessageBox.Show(exception.Message, exception.Source, MessageBoxButtons.AbortRetryIgnore,
+          MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
         switch (answer) {
           case DialogResult.Ignore:
             break;
@@ -342,13 +327,12 @@ namespace SherpJobLogger {
         }
       }
       try {
-        if (Debug) {
-          RichMessageBox.ShowNew(cmd.CommandText);
-        }
-        else { cmd.ExecuteNonQuery(); }
+        if (Debug) RichMessageBox.ShowNew(cmd.CommandText);
+        else cmd.ExecuteNonQuery();
       }
       catch (SqlException exception) {
-        DialogResult answer = MessageBox.Show(exception.Message, exception.Source, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+        DialogResult answer = MessageBox.Show(exception.Message, exception.Source, MessageBoxButtons.AbortRetryIgnore,
+          MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
         switch (answer) {
           case DialogResult.Ignore:
             return false;
@@ -366,19 +350,20 @@ namespace SherpJobLogger {
     }
 
     /// <summary>
-    /// Вычисление количественного коэффициента для каждой работы в таблице
+    ///   Вычисление количественного коэффициента для каждой работы в таблице
     /// </summary>
     /// <returns></returns>
     private List<JobLog> GetJobRates() {
       var result = new List<JobLog>();
-      int totalHours = GetDailyWorkHours() * GetWorkDates().Count;
-      double JobRateTotal = (double)GetJobRatesSum();
+      double totalHours = GetDailyWorkHours() * GetWorkDates().Count;
+      double JobRateTotal = GetJobRatesSum();
       foreach (DataGridViewRow row in this.dataGridViewJobs.Rows) {
         int jobRate = int.Parse(row.Cells[3].FormattedValue.ToString());
         string descr = row.Cells[2].FormattedValue.ToString();
         Guid IDwork = Guid.Parse(row.Cells[1].Value.ToString());
         LGTask w = this.SelectedJobs.FirstOrDefault(x => x.IDWork == IDwork);
-        JobLog jobLog = new JobLog(w, Helpers.RoundToFraction(jobRate / JobRateTotal * totalHours, Settings.JobLogAccurancy), descr);
+        JobLog jobLog = new JobLog(w,
+          Helpers.RoundToFraction(jobRate / JobRateTotal * totalHours, Settings.JobLogAccurancy), descr);
 
         result.Add(jobLog);
       }
@@ -386,66 +371,68 @@ namespace SherpJobLogger {
     }
 
     /// <summary>
-    /// Возвращаем из диапозона дат те, среди которых нет выходных или праздничных дней.
+    ///   Возвращаем из диапозона дат те, среди которых нет выходных или праздничных дней.
     /// </summary>
     /// <returns></returns>
     private List<DateTime> GetWorkDates() {
-      var from = this.dateTimeFromDays.Value;
-      var to = this.dateTimeToDays.Value;
-      return GetWorkDates(@from, to);
+      DateTime from = this.dateTimeFromDays.Value;
+      DateTime to = this.dateTimeToDays.Value;
+      return GetWorkDates(from, to);
     }
 
     /// <summary>
-    /// Возвращаем из диапозона дат те, среди которых нет выходных или праздничных дней.
+    ///   Возвращаем из диапозона дат те, среди которых нет выходных или праздничных дней.
     /// </summary>
     /// <param name="dateFrom">Нижний край диапозона дат</param>
     /// <param name="dateTo">Верхний край диапозона дат</param>
     /// <returns></returns>
     private List<DateTime> GetWorkDates(DateTime dateFrom, DateTime dateTo) {
-      List<DateTime> workDates = new List<DateTime>();
+      var workDates = new List<DateTime>();
       int span;
 
       if (dateFrom.Year < dateTo.Year) {
         int daysInYear = new DateTime(dateFrom.Year, 12, 31).DayOfYear;
         span = daysInYear - dateFrom.DayOfYear + dateTo.DayOfYear;
       }
-      else span = dateTo.DayOfYear - dateFrom.DayOfYear;
+      else {
+        span = dateTo.DayOfYear - dateFrom.DayOfYear;
+      }
 
       for (int j = 0; j <= span; j++) {
-        var testDate = dateFrom.AddDays(j);
+        DateTime testDate = dateFrom.AddDays(j);
         if (IsWorkDay(testDate)) workDates.Add(testDate);
       }
       return workDates;
     }
 
     /// <summary>
-    /// Кол-во рабочих часов в день
+    ///   Кол-во рабочих часов в день
     /// </summary>
     /// <returns></returns>
-    private int GetDailyWorkHours() {
+    private double GetDailyWorkHours() {
       return GetDailyWorkHours(this.dateTimeFromHours.Value, this.dateTimeToHours.Value);
     }
 
     /// <summary>
-    /// Кол-во рабочих часов в день
+    ///   Кол-во рабочих часов в день
     /// </summary>
     /// <returns></returns>
-    private int GetDailyWorkHours(DateTime hoursFrom, DateTime hoursTo) {
+    private double GetDailyWorkHours(DateTime hoursFrom, DateTime hoursTo) {
       return GetDailyWorkHours(hoursFrom, hoursTo, this.dateTimeDinnerFrom.Value, this.dateTimeDinnerTo.Value);
     }
 
     /// <summary>
-    /// Кол-во рабочих часов в день
+    ///   Кол-во рабочих часов в день
     /// </summary>
     /// <returns></returns>
-    private int GetDailyWorkHours(DateTime hoursFrom, DateTime hoursTo, DateTime dinnerFrom, DateTime dinnerTo) {
-      int workMinutes = (hoursTo.Hour - hoursFrom.Hour);
-      int dinerMinutes = (dinnerTo.Hour - dinnerFrom.Hour);
-      return this.checkBoxDinner.Checked ? (workMinutes - dinerMinutes) : workMinutes;
+    private double GetDailyWorkHours(DateTime hoursFrom, DateTime hoursTo, DateTime dinnerFrom, DateTime dinnerTo) {
+      double workHours = hoursTo.Hour + hoursTo.Minute / 60.0 - hoursFrom.Hour - hoursFrom.Minute / 60.0;
+      double dinnerHours = dinnerTo.Hour + dinnerTo.Minute / 60.0 - dinnerFrom.Hour - dinnerFrom.Minute / 60.0;
+      return this.checkBoxDinner.Checked ? workHours - dinnerHours : workHours;
     }
 
     /// <summary>
-    /// Проверяем, является ли день рабочим
+    ///   Проверяем, является ли день рабочим
     /// </summary>
     /// <param name="d"></param>
     /// <returns>true - рабочий день, false - не рабочий день</returns>
@@ -457,7 +444,7 @@ namespace SherpJobLogger {
     }
 
     /// <summary>
-    /// Проверяем, не является ли день праздничным
+    ///   Проверяем, не является ли день праздничным
     /// </summary>
     /// <param name="d"></param>
     /// <returns></returns>
@@ -466,17 +453,21 @@ namespace SherpJobLogger {
     }
 
     /// <summary>
-    /// Дробим дни на рабочие отрезки и возвращаем их листом
+    ///   Дробим дни на рабочие отрезки и возвращаем их листом
     /// </summary>
     /// <returns></returns>
     private List<WorkSpan> GetWorkSpans() {
       var result = new List<WorkSpan>();
 
       foreach (DateTime Day in GetWorkDates()) {
-        DateTime Morningfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeFromHours.Value.Hour, 0, 0);
-        DateTime Morningto = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerFrom.Value.Hour, 0, 0);
-        DateTime Dayfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerTo.Value.Hour, 0, 0);
-        DateTime Dayto = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeToHours.Value.Hour, 0, 0);
+        DateTime Morningfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeFromHours.Value.Hour,
+          this.dateTimeFromHours.Value.Minute, 0);
+        DateTime Morningto = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerFrom.Value.Hour,
+          this.dateTimeDinnerFrom.Value.Minute, 0);
+        DateTime Dayfrom = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeDinnerTo.Value.Hour,
+          this.dateTimeDinnerTo.Value.Minute, 0);
+        DateTime Dayto = new DateTime(Day.Year, Day.Month, Day.Day, this.dateTimeToHours.Value.Hour,
+          this.dateTimeToHours.Value.Minute, 0);
 
 
         if (this.checkBoxDinner.Checked) {
@@ -490,12 +481,9 @@ namespace SherpJobLogger {
           }
         }
         else {
-          if (this.checkBoxRandomize.Checked) {
+          if (this.checkBoxRandomize.Checked)
             result.AddRange(WorkSpan.GetWorkSpanList(Morningfrom, Dayto, Program.rnd));
-          }
-          else {
-            result.Add(new WorkSpan(Morningfrom, Dayto));
-          }
+          else result.Add(new WorkSpan(Morningfrom, Dayto));
         }
       }
       return result;
@@ -503,9 +491,7 @@ namespace SherpJobLogger {
 
     private void SetDateTimeNBD(DateTimePicker p) {
       p.Value = p.Value.AddDays(1);
-      while (!IsWorkDay(p.Value)) {
-        p.Value = p.Value.AddDays(1);
-      }
+      while (!IsWorkDay(p.Value)) p.Value = p.Value.AddDays(1);
     }
   }
 }

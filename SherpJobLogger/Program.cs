@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace SherpJobLogger {
-
   internal static class Program {
     public static Random rnd;
     public static MainForm MainForm;
@@ -18,7 +15,7 @@ namespace SherpJobLogger {
 
 
     /// <summary>
-    /// The main entry point for the application.
+    ///   The main entry point for the application.
     /// </summary>
     [STAThread]
     private static void Main(string[] args) {
@@ -46,30 +43,32 @@ namespace SherpJobLogger {
 
     private static void EndTelemetry() {
       string query = "[dbo].[UpdateTelemetry]";
-      SqlCommand cmd = new SqlCommand(query, SqlFenix) { CommandType = CommandType.StoredProcedure };
+      SqlCommand cmd = new SqlCommand(query, SqlFenix) {CommandType = CommandType.StoredProcedure};
       SqlParameter EndTime, id;
       (EndTime = new SqlParameter("@EndTime", SqlDbType.DateTime)).Value = DateTime.Now;
       (id = new SqlParameter("@ID", SqlDbType.UniqueIdentifier)).Value = TelemetryGuid;
-      cmd.Parameters.AddRange(new SqlParameter[] { EndTime, id });
+      cmd.Parameters.AddRange(new[] {EndTime, id});
       cmd.ExecuteNonQuery();
     }
 
 
-
     private static void BeginTelemetry() {
-      SqlFenix = new SqlConnection(@"Server=saturn.formulabi.local\it;Database=SJL_telemetry;User Id=SherpLogger;Password = Zasqw12;");
+      SqlFenix =
+        new SqlConnection(
+          @"Server=saturn.formulabi.local\it;Database=SJL_telemetry;User Id=SherpLogger;Password = Zasqw12;");
       SqlFenix.Open();
 
       string query = "[dbo].[AddTelemetry]";
-      using (SqlCommand cmd = new SqlCommand(query, SqlFenix) { CommandType = CommandType.StoredProcedure }) {
+      using (SqlCommand cmd = new SqlCommand(query, SqlFenix) {CommandType = CommandType.StoredProcedure}) {
         SqlParameter appStartDate, userName, compName, id, appVersion;
         (appStartDate = new SqlParameter("@AppStartDate", SqlDbType.DateTime)).Value = DateTime.Now;
-        (appVersion = new SqlParameter("@appVersion", SqlDbType.NVarChar)).Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        (userName = new SqlParameter("@UserName", SqlDbType.NVarChar)).Value = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        (appVersion = new SqlParameter("@appVersion", SqlDbType.NVarChar)).Value =
+          Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        (userName = new SqlParameter("@UserName", SqlDbType.NVarChar)).Value = WindowsIdentity.GetCurrent().Name;
         (compName = new SqlParameter("@ComputerName", SqlDbType.NVarChar)).Value = Helpers.GetFQDN();
         (id = new SqlParameter("@ID", SqlDbType.UniqueIdentifier)).Value = TelemetryGuid;
 
-        cmd.Parameters.AddRange(new SqlParameter[] { appStartDate, userName, compName, id, appVersion });
+        cmd.Parameters.AddRange(new[] {appStartDate, userName, compName, id, appVersion});
         cmd.ExecuteNonQuery();
       }
     }
@@ -77,7 +76,7 @@ namespace SherpJobLogger {
     private static bool checkLogins() {
       string userName;
       try {
-        userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        userName = WindowsIdentity.GetCurrent().Name;
       }
       catch (Exception e) {
         throw e;
@@ -85,12 +84,11 @@ namespace SherpJobLogger {
       SqlCommand command = new SqlCommand(@"SELECT * FROM [bannedLogins]", SqlFenix);
       using (DataTable dt = new DataTable()) {
         dt.Load(command.ExecuteReader());
-        if (dt.Rows.Cast<DataRow>().Any(row => userName.Contains(row[0].ToString()))) {
-          return false;
-        }
+        if (dt.Rows.Cast<DataRow>().Any(row => userName.Contains(row[0].ToString()))) return false;
       }
       return true;
     }
+
     private static string RandomString(int length = 64) {
       string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       chars += chars.ToLower();
